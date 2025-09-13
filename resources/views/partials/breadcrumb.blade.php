@@ -9,9 +9,9 @@
       <li>
         <a
           class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
-          href="index.html"
+          href="{{url("/dashboard") }}"
         >
-          Home
+          Dashboard
           <svg
             class="stroke-current"
             width="17"

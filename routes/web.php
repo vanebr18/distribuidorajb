@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TipoGasesController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,11 +12,25 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    ## TIPOS DE GASES
+    Route::get('/mantenimiento/tipo-gases', function () {
+        return view('mantenimiento.tipo-gas.tipo-gases');
+    })->name('tipo-gases');
+     //AGREGAR
+    Route::post('/tipogases', [TipoGasesController::class, 'store'])->name('tipogases.store');
+     // LISTAR
+    Route::get('/tipogases/list', [TipoGasesController::class, 'list'])->name('tipogases.list');
+
 });
 
+
+
+//TERMINOS Y POLÍTICAS
 Route::get('/terms', function () {
     $terms = '
         <h1>Términos y Condiciones</h1>

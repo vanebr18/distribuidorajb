@@ -79,7 +79,7 @@
               <span
                 class="menu-item-text"
                 :class="sidebarToggle ? 'lg:hidden' : ''">
-                Dashboard
+                Mantenimiento
               </span>
 
               <svg
@@ -108,10 +108,10 @@
                 class="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
                 <li>
                   <a
-                    href="index.html"
+                    href="{{ route( 'tipo-gases') }}"
                     class="menu-dropdown-item group"
                     :class="page === 'ecommerce' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                    eCommerce
+                    Tipos de Gases
                   </a>
                 </li>
                 <li>
