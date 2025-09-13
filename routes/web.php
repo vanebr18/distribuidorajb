@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
+Route::get('/terms', function () {
+    $terms = '
+        <h1>Términos y Condiciones</h1>
+        <p>Bienvenido a nuestra plataforma. Aquí van tus términos de uso...</p>
+    ';
+
+    return view('terms', compact('terms'));
+})->name('terms.show');
+
+Route::get('/privacy', function () {
+    $policy = '
+        <h1>Políticas de Privacidad</h1>
+        <p>Aquí describimos cómo manejamos la información de los usuarios...</p>
+    ';
+
+    return view('policy', compact('policy'));
+})->name('policy.show');

@@ -1,0 +1,260 @@
+/* -------------------- Importar Fuente -------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap") layer(base);
+
+/* -------------------- Variables Globales -------------------- */
+:root {
+  --font-outfit: 'Outfit', sans-serif;
+
+  /* Colores */
+  --color-white: #ffffff;
+  --color-black: #101828;
+
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f2f4f7;
+  --color-gray-200: #e4e7ec;
+  --color-gray-300: #d0d5dd;
+  --color-gray-400: #98a2b3;
+  --color-gray-500: #667085;
+  --color-gray-600: #475467;
+  --color-gray-700: #344054;
+  --color-gray-800: #1d2939;
+  --color-gray-900: #101828;
+  --color-gray-dark: #1a2231;
+
+  --color-brand-50: #ecf3ff;
+  --color-brand-500: #465fff;
+
+  --color-success-50: #ecfdf3;
+  --color-success-500: #12b76a;
+
+  --color-error-50: #fef3f2;
+  --color-error-500: #f04438;
+
+  --color-orange-50: #fff6ed;
+  --color-orange-500: #fb6514;
+
+  /* Sombras */
+  --shadow-theme-sm: 0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+  --shadow-theme-md: 0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-theme-lg: 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+  --shadow-theme-xl: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+  --shadow-datepicker: -5px 0 0 #262d3c, 5px 0 0 #262d3c;
+  --shadow-focus-ring: 0px 0px 0px 4px rgba(70, 95, 255, 0.12);
+  --shadow-slider-navigation: 0px 1px 2px 0px rgba(16, 24, 40, 0.1), 0px 1px 3px 0px rgba(16, 24, 40, 0.1);
+  --shadow-tooltip: 0px 4px 6px -2px rgba(16, 24, 40, 0.05), -8px 0px 20px 8px rgba(16, 24, 40, 0.05);
+
+  /* Z-index */
+  --z-index-1: 1;
+  --z-index-9: 9;
+  --z-index-99: 99;
+  --z-index-999: 999;
+  --z-index-9999: 9999;
+  --z-index-99999: 99999;
+  --z-index-999999: 999999;
+}
+
+/* -------------------- Base -------------------- */
+
+body {
+  @apply relative text-base font-normal font-outfit z-1 bg-gray-50 dark:bg-gray-900;
+}
+
+*::before,
+*::after {
+  border-color: var(--color-gray-200, currentColor);
+}
+
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  @apply cursor-pointer;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+  display: none;
+  -webkit-appearance: none;
+}
+
+
+/* -------------------- Componentes -------------------- */
+
+
+/* Menu */
+.menu-item {
+  @apply relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
+}
+
+.menu-item-active {
+  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+}
+
+.menu-item-inactive {
+  @apply text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
+}
+
+.menu-item-icon-active {
+  @apply fill-brand-500 dark:fill-brand-400;
+}
+
+.menu-item-icon-inactive {
+  @apply fill-gray-500 group-hover:fill-gray-700 dark:fill-gray-400 dark:group-hover:fill-gray-300;
+}
+
+.menu-item-arrow {
+  @apply absolute top-1/2 right-2.5 -translate-y-1/2;
+}
+
+.menu-item-arrow-active {
+  @apply rotate-180 stroke-brand-500 dark:stroke-brand-400;
+}
+
+.menu-item-arrow-inactive {
+  @apply stroke-gray-500 group-hover:stroke-gray-700 dark:stroke-gray-400 dark:group-hover:stroke-gray-300;
+}
+
+.menu-dropdown-item {
+  @apply text-theme-sm relative flex items-center gap-3 rounded-lg px-3 py-2.5 font-medium;
+}
+
+.menu-dropdown-item-active {
+  @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
+}
+
+.menu-dropdown-item-inactive {
+  @apply text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-white/5;
+}
+
+.menu-dropdown-badge {
+  @apply text-brand-500 dark:text-brand-400 block rounded-full px-2.5 py-0.5 text-xs font-medium uppercase;
+}
+
+.menu-dropdown-badge-active {
+  @apply bg-brand-100 dark:bg-brand-500/20;
+}
+
+.menu-dropdown-badge-inactive {
+  @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
+}
+
+/* Scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  @apply w-6 h-6 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-200 rounded-full;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #344054;
+}
+
+/* Sidebar Hover */
+.sidebar:hover {
+  width: 290px;
+}
+
+.sidebar:hover .logo {
+  display: block;
+}
+
+.sidebar:hover .logo-icon {
+  display: none;
+}
+
+.sidebar:hover .sidebar-header {
+  justify-content: space-between;
+}
+
+.sidebar:hover .menu-group-title {
+  display: block;
+}
+
+.sidebar:hover .menu-group-icon {
+  display: none;
+}
+
+.sidebar:hover .menu-item-text {
+  display: inline;
+}
+
+.sidebar:hover .menu-item-arrow {
+  display: block;
+}
+
+.sidebar:hover .menu-dropdown {
+  display: flex;
+}
+
+/* Table / Tasks */
+.tableCheckbox:checked~span span {
+  @apply opacity-100;
+}
+
+.tableCheckbox:checked~span {
+  @apply border-brand-500 bg-brand-500;
+}
+
+.taskCheckbox:checked~.box span {
+  @apply opacity-100;
+}
+
+.taskCheckbox:checked~p {
+  @apply text-gray-400 line-through;
+}
+
+.taskCheckbox:checked~.box {
+  @apply border-brand-500 bg-brand-500 dark:border-brand-500;
+}
+
+.task {
+  transition: all 0.2s ease;
+}
+
+.task.is-dragging {
+  border-radius: 0.75rem;
+  box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+  opacity: 0.8;
+  cursor: grabbing;
+}
+
+/* FullCalendar / ApexCharts / Flatpickr / Swiper */
+/* Aquí puedes agrupar todas tus clases de librerías externas usando @apply sin anidamientos problemáticos */
+
+
+/* -------------------- Utilidades -------------------- */
+
+.text-theme-sm {
+  font-size: 0.875rem;
+}
+
+.text-theme-xs {
+  font-size: 0.75rem;
+}
+
+.shadow-theme-sm {
+  box-shadow: 0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
+}
+
+.shadow-theme-md {
+  box-shadow: 0px 4px 8px -2px rgba(16, 24, 40, 0.1), 0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+}
+
+.shadow-theme-lg {
+  box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08), 0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+}
+
+.shadow-theme-xl {
+  box-shadow: 0px 20px 24px -4px rgba(16, 24, 40, 0.08), 0px 8px 8px -4px rgba(16, 24, 40, 0.03);
+}
