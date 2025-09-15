@@ -18,11 +18,11 @@ Route::middleware([
     })->name('dashboard');
 
     ## TIPOS DE GASES
-    Route::get('/mantenimiento/tipo-gases', function () {
+    Route::get('/mantenimiento/tipo-gas', function () {
         return view('mantenimiento.tipo-gas.tipo-gases');
     })->name('tipo-gases');
      //AGREGAR
-    Route::post('/tipogases', [TipoGasesController::class, 'store'])->name('tipogases.store');
+    Route::post('/mantenimiento/tipo-gases', [TipoGasesController::class, 'store'])->name('tipogases.store');
      // LISTAR
     Route::get('/tipogases/list', [TipoGasesController::class, 'list'])->name('tipogases.list');
 

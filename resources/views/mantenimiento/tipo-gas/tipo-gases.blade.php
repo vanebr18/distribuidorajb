@@ -14,9 +14,8 @@
             </h3>
         </div>
         <div
-            x-data="tipoGasForm()"
             class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-            <form method="POST" action="" id="frmTipoGases">
+            <form method="POST" x-data="tipoGasForm()" id="frmTipoGases">
                 <div class="-mx-2.5 flex flex-wrap gap-y-5">
                     <div class="w-full px-2.5 xl:w-1/2">
                         <label
@@ -26,6 +25,7 @@
                         <input
                             type="text"
                             placeholder="Ingrese Nombre del Tipo de Gas"
+                            x-model="descripcion"
                             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                     </div>
 
@@ -37,6 +37,7 @@
                         <input
                             type="text"
                             placeholder="Ingrese Unidad de Medida"
+                            x-model="uni_medida"
                             maxlength="4"
                             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                     </div>
@@ -87,6 +88,7 @@
 
     <div
         x-data="dataTableTwo()"
+        x-init="init()"
         class="overflow-hidden rounded-xl border border-gray-200 bg-white pt-4 dark:border-gray-800 dark:bg-white/[0.03]">
 
         <!-- FILTRADO -->
@@ -184,7 +186,7 @@
                         class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
                         <div
                             class="flex w-full cursor-pointer items-center justify-between"
-                            @click="sortBy('user')">
+                            @click="sortBy('id')">
                             <p
                                 class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
                                 ID
@@ -221,7 +223,7 @@
                         class="col-span-5 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
                         <div
                             class="flex w-full cursor-pointer items-center justify-between"
-                            @click="sortBy('position')">
+                            @click="sortBy('descripcion')">
                             <p
                                 class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
                                 Nombre
@@ -258,7 +260,7 @@
                         class="col-span-4 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
                         <div
                             class="flex w-full cursor-pointer items-center justify-between"
-                            @click="sortBy('office')">
+                            @click="sortBy('uni_medida')">
                             <p
                                 class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
                                 Unidad de Medida
@@ -330,7 +332,7 @@
                 </div>
 
                 <!-- BODY DE LA TABLA -->
-                <template x-for="person in paginatedData" :key="person.id">
+                <template x-for="tipogas in paginatedData" :key="tipogas.id">
                     <!-- table item -->
                     <div
                         class="grid grid-cols-11 border-t border-gray-100 dark:border-gray-800">
@@ -338,7 +340,7 @@
                             class="col-span-1 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="block text-theme-sm font-medium text-gray-800 dark:text-white/90"
-                                x-text="person.id">
+                                x-text="tipogas.id">
                                 1
                             </p>
                         </div>
@@ -346,13 +348,13 @@
                             class="col-span-5 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="person.name"></p>
+                                x-text="tipogas.descripcion"></p>
                         </div>
                         <div
                             class="col-span-4 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="person.position"></p>
+                                x-text="tipogas.uni_medida"></p>
                         </div>
                         <div class="col-span-1 flex items-center px-4 py-[17.5px]">
                             <div class="flex w-full items-center gap-2">
@@ -455,17 +457,59 @@
     </div>
 
     <script>
-        const res = await fetch('/tipogases', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                nombre: this.descripcion,
-                unidad: this.uni_medida
-            })
-        });
+        function tipoGasForm() {
+            return {
+                descripcion: '',
+                uni_medida: '',
+                async submitForm() {
+                    try {
+                        const res = await fetch('/mantenimiento/tipo-gas', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                descripcion: this.descripcion,
+                                uni_medida: this.uni_medida
+                            })
+                        });
+
+                        const data = await res.json();
+
+                        if (res.ok) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Éxito!',
+                                text: 'Tipo de gas agregado correctamente'
+                            });
+
+                            this.resetForm();
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message ?? 'Ocurrió un problema'
+                            });
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error de conexión',
+                            text: 'No se pudo enviar el formulario'
+                        });
+                    }
+                },
+                resetForm() {
+                    this.descripcion = '';
+                    this.uni_medida = '';
+                }
+            }
+        }
+
 
         function dataTableTwo() {
 
@@ -476,132 +520,35 @@
                 sortDirection: "asc",
                 currentPage: 1,
                 perPage: 10,
-                data: [{
-                        id: 1,
-                        name: "Lindsey Curtis",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 2,
-                        name: "Kaiya George",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 3,
-                        name: "Zain Geidt",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 4,
-                        name: "Abram Schleifer",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 5,
-                        name: "Carla George",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 6,
-                        name: "Emery Culhane",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 7,
-                        name: "Livia Donin",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 8,
-                        name: "Miracle Bator",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 9,
-                        name: "Lincoln Herwitz",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 10,
-                        name: "Ekstrom Bothman",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 11,
-                        name: "Lindsey Curtis",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 12,
-                        name: "Kaiya George",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 13,
-                        name: "Zain Geidt",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 14,
-                        name: "Abram Schleifer",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 15,
-                        name: "Carla George",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 16,
-                        name: "Emery Culhane",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 17,
-                        name: "Livia Donin",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 18,
-                        name: "Miracle Bator",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 19,
-                        name: "Lincoln Herwitz",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 20,
-                        name: "Ekstrom Bothman",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 21,
-                        name: "Lindsey Curtis",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 22,
-                        name: "Kaiya George",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 23,
-                        name: "Zain Geidt",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 24,
-                        name: "Abram Schleifer",
-                        position: "Sales Assistant",
-                    },
-                    {
-                        id: 25,
-                        name: "Carla George",
-                        position: "Sales Assistant",
-                    },
-                ],
+                data: [],
+
+                async init() {
+                    await this.loadData();
+                },
+
+                async loadData() {
+                    try {
+                        const res = await fetch('/tipogases/list', {
+                            headers: {
+                                'X-Requested-With': 'XMLHttpRequest'
+                            }
+                        });
+
+                        if (!res.ok) throw new Error("Error al cargar datos");
+
+                        const result = await res.json();
+                        console.log(result.data);
+                        this.data = result; // <-- tu controlador debe devolver un array de objetos
+                    } catch (error) {
+                        console.error(error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'No se pudo cargar la lista de tipos de gases'
+                        });
+                    }
+                },
+
 
                 get pagesAroundCurrent() {
                     let pages = [];
@@ -618,9 +565,9 @@
                     const searchLower = this.search.toLowerCase();
                     return this.data
                         .filter(
-                            (person) =>
-                            person.name.toLowerCase().includes(searchLower) ||
-                            person.position.toLowerCase().includes(searchLower),
+                            (tipogas) =>
+                            tipogas.descripcion.toLowerCase().includes(searchLower) ||
+                            tipogas.uni_medida.toLowerCase().includes(searchLower),
                         )
                         .sort((a, b) => {
                             let modifier = this.sortDirection === "asc" ? 1 : -1;

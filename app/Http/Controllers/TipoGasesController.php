@@ -10,7 +10,7 @@ class TipoGasesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function list()
     {
         $tipos = TipoGas::all(['id', 'descripcion', 'uni_medida']);
         return response()->json($tipos);
