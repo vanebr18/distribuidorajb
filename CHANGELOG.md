@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/vanebr18/distribuidorajb/compare/v1.2.0...v1.3.0) (2025-09-17)
+
+
+### Features
+
+* se agrega función para eliminar registros desde la tabla ([dba9133](https://github.com/vanebr18/distribuidorajb/commit/dba9133616af8f6d47785deea08b13072ebde23e))
+
 ## [1.2.0](https://github.com/vanebr18/distribuidorajb/compare/v1.1.0...v1.2.0) (2025-09-15)
 
 
