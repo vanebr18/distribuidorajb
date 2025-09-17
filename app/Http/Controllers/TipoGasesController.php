@@ -46,7 +46,6 @@ class TipoGasesController extends Controller
                 'message' => 'Registrado correctamente',
                 'data' => $tipo
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -84,6 +83,9 @@ class TipoGasesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $tipoGas = TipoGas::findOrFail($id);
+        $tipoGas->delete();
+
+        return response()->json(['success' => true, 'message' => 'Registro eliminado correctamente.']);
     }
 }

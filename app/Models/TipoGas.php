@@ -13,6 +13,8 @@ class TipoGas extends Model
 {
     use HasApiTokens;
 
+    protected $table = 'tipo_gases';
+
     protected $fillable = [
         'descripcion',
         'uni_medida',

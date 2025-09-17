@@ -15,7 +15,7 @@
         </div>
         <div
             class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-            <form method="POST" x-data="tipoGasForm()" id="frmTipoGases">
+            <form method="POST" x-data="tipoGasForm()" @submit="submitForm" id="frmTipoGases">
                 <div class="-mx-2.5 flex flex-wrap gap-y-5">
                     <div class="w-full px-2.5 xl:w-1/2">
                         <label
@@ -360,6 +360,7 @@
                             <div class="flex w-full items-center gap-2">
                                 <!-- ELIMINAR -->
                                 <button
+                                    @click="deleteItem(tipogas.id)"
                                     class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500">
                                     <svg
                                         class="fill-current"
@@ -461,48 +462,39 @@
             return {
                 descripcion: '',
                 uni_medida: '',
-                async submitForm() {
+
+                async submitForm(event) {
+                    event.preventDefault();
+
                     try {
-                        const res = await fetch('/mantenimiento/tipo-gas', {
-                            method: 'POST',
+                        let response = await fetch("{{ route('tipogases.store') }}", {
+                            method: "POST",
                             headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document
-                                    .querySelector('meta[name="csrf-token"]')
-                                    .getAttribute('content')
+                                "Content-Type": "application/json",
+                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
                             },
                             body: JSON.stringify({
                                 descripcion: this.descripcion,
-                                uni_medida: this.uni_medida
-                            })
+                                uni_medida: this.uni_medida,
+                            }),
                         });
 
-                        const data = await res.json();
+                        let result = await response.json();
 
-                        if (res.ok) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Éxito!',
-                                text: 'Tipo de gas agregado correctamente'
-                            });
-
+                        if (result.success) {
                             this.resetForm();
+                            // refrescar listado
+                            window.dispatchEvent(new CustomEvent("refresh-tipo-gases"));
+                            Swal.fire("Éxito", result.message, "success");
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message ?? 'Ocurrió un problema'
-                            });
+                            Swal.fire("Error", "No se pudo guardar.", "error");
                         }
-                    } catch (e) {
-                        console.error(e);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error de conexión',
-                            text: 'No se pudo enviar el formulario'
-                        });
+                    } catch (error) {
+                        console.error(error);
+                        Swal.fire("Error", "Ocurrió un problema.", "error");
                     }
                 },
+
                 resetForm() {
                     this.descripcion = '';
                     this.uni_medida = '';
@@ -510,45 +502,24 @@
             }
         }
 
-
         function dataTableTwo() {
-
-
             return {
+                data: [],
                 search: "",
                 sortColumn: "id",
                 sortDirection: "asc",
                 currentPage: 1,
                 perPage: 10,
-                data: [],
 
                 async init() {
-                    await this.loadData();
+                    await this.fetchData();
+                    window.addEventListener("refresh-tipo-gases", () => this.fetchData());
                 },
 
-                async loadData() {
-                    try {
-                        const res = await fetch('/tipogases/list', {
-                            headers: {
-                                'X-Requested-With': 'XMLHttpRequest'
-                            }
-                        });
-
-                        if (!res.ok) throw new Error("Error al cargar datos");
-
-                        const result = await res.json();
-                        console.log(result.data);
-                        this.data = result; // <-- tu controlador debe devolver un array de objetos
-                    } catch (error) {
-                        console.error(error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'No se pudo cargar la lista de tipos de gases'
-                        });
-                    }
+                async fetchData() {
+                    let response = await fetch("{{ route('tipogases.list') }}");
+                    this.data = await response.json();
                 },
-
 
                 get pagesAroundCurrent() {
                     let pages = [];
@@ -562,25 +533,25 @@
                 },
 
                 get filteredData() {
-                    const searchLower = this.search.toLowerCase();
-                    return this.data
-                        .filter(
-                            (tipogas) =>
-                            tipogas.descripcion.toLowerCase().includes(searchLower) ||
-                            tipogas.uni_medida.toLowerCase().includes(searchLower),
-                        )
-                        .sort((a, b) => {
-                            let modifier = this.sortDirection === "asc" ? 1 : -1;
-                            if (a[this.sortColumn] < b[this.sortColumn]) return -1 * modifier;
-                            if (a[this.sortColumn] > b[this.sortColumn]) return 1 * modifier;
-                            return 0;
-                        });
+                    return this.data.filter(item =>
+                        item.descripcion.toLowerCase().includes(this.search.toLowerCase()) ||
+                        item.uni_medida.toLowerCase().includes(this.search.toLowerCase())
+                    );
                 },
 
                 get paginatedData() {
-                    const start = (this.currentPage - 1) * this.perPage;
-                    const end = start + this.perPage;
-                    return this.filteredData.slice(start, end);
+                    let start = (this.currentPage - 1) * this.perPage;
+                    return this.filteredData.slice(start, start + this.perPage);
+                },
+
+                sortBy(column) {
+                    this.sortColumn = column;
+                    this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
+                    this.data.sort((a, b) => {
+                        if (a[column] < b[column]) return this.sortDirection === "asc" ? -1 : 1;
+                        if (a[column] > b[column]) return this.sortDirection === "asc" ? 1 : -1;
+                        return 0;
+                    });
                 },
 
                 get totalEntries() {
@@ -599,34 +570,48 @@
                 get totalPages() {
                     return Math.ceil(this.filteredData.length / this.perPage);
                 },
-
-                goToPage(page) {
-                    if (page >= 1 && page <= this.totalPages) {
-                        this.currentPage = page;
-                    }
-                },
-
-                nextPage() {
-                    if (this.currentPage < this.totalPages) {
-                        this.currentPage++;
-                    }
-                },
-
                 prevPage() {
-                    if (this.currentPage > 1) {
-                        this.currentPage--;
-                    }
+                    if (this.currentPage > 1) this.currentPage--;
+                },
+                nextPage() {
+                    if (this.currentPage < this.totalPages) this.currentPage++;
                 },
 
-                sortBy(column) {
-                    if (this.sortColumn === column) {
-                        this.sortDirection = this.sortDirection === "asc" ? "desc" : "asc";
-                    } else {
-                        this.sortDirection = "asc";
-                        this.sortColumn = column;
-                    }
-                },
-            };
+                deleteItem(id) {
+                    Swal.fire({
+                        title: "¿Estás seguro de eliminar éste registro?",
+                        text: "No podrás revertir esta acción.",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "Cancelar",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch(`{{ route('tipogases.destroy', ':id') }}`.replace(':id', id), {
+                                    method: "DELETE",
+                                    headers: {
+                                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                                    },
+                                })
+                                .then(response => response.json())
+                                .then(result => {
+                                    if (result.success) {
+                                        Swal.fire("Éxito", "Registro eliminado correctamente.", "success");
+                                        this.data = this.data.filter(item => item.id !== id); // Actualiza la tabla
+                                    } else {
+                                        Swal.fire("Error", "No se pudo eliminar el registro.", "error");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                    Swal.fire("Error", "Ocurrió un problema al eliminar el registro.", "error");
+                                });
+                        }
+                    });
+                }
+            }
         }
     </script>
     <!-- DataTable Two -->

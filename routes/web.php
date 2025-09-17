@@ -25,7 +25,8 @@ Route::middleware([
     Route::post('/mantenimiento/tipo-gases', [TipoGasesController::class, 'store'])->name('tipogases.store');
      // LISTAR
     Route::get('/tipogases/list', [TipoGasesController::class, 'list'])->name('tipogases.list');
-
+     //ELIMINAR
+    Route::delete('/tipogases/{id}', [TipoGasesController::class, 'destroy'])->name('tipogases.destroy');
 });
 
 
