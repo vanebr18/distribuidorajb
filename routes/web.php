@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TipoGasesController;
+use App\Http\Controllers\ZonasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +30,19 @@ Route::middleware([
     Route::delete('/tipogases/{id}', [TipoGasesController::class, 'destroy'])->name('tipogases.destroy');
      //EDITAR
     Route::put('/tipogases/{id}', [TipoGasesController::class, 'update'])->name('tipogases.update');
+
+     ## ZONAS
+     Route::get('/mantenimiento/zonas', function () {
+        return view('mantenimiento.zonas.zonas');
+    })->name('zonas');
+     //AGREGAR
+    Route::post('/mantenimiento/zonas', [ZonasController::class, 'store'])->name('zonas.store');
+     // LISTAR
+    Route::get('/zonas/list', [ZonasController::class, 'list'])->name('zonas.list');
+     //ELIMINAR
+    Route::delete('/zonas/{id}', [ZonasController::class, 'destroy'])->name('zonas.destroy');
+     //EDITAR
+    Route::put('/zonas/{id}', [ZonasController::class, 'update'])->name('zonas.update');
 });
 
 

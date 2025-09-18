@@ -116,17 +116,10 @@
                 </li>
                 <li>
                   <a
-                    href="analytics.html"
+                    href="{{ route( 'zonas') }}"
                     class="menu-dropdown-item group"
                     :class="page === 'analytics' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                    Analytics
-                    <span class="absolute right-3 flex items-center gap-1">
-                      <span
-                        class="menu-dropdown-badge"
-                        :class="page === 'analytics' ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive'">
-                        Pro
-                      </span>
-                    </span>
+                    Zonas
                   </a>
                 </li>
                 <li>
