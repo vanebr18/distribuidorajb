@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/vanebr18/distribuidorajb/compare/v1.4.0...v1.5.0) (2025-09-18)
+
+
+### Features
+
+* sea agrega MVC para Zonas ([1f3c076](https://github.com/vanebr18/distribuidorajb/commit/1f3c076eda7736cd9c1b21b06992b87eec042c0b))
+
 ## [1.4.0](https://github.com/vanebr18/distribuidorajb/compare/v1.3.0...v1.4.0) (2025-09-18)
 
 
