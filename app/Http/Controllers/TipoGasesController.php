@@ -75,7 +75,19 @@ class TipoGasesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'descripcion' => 'required|string|max:255',
+            'uni_medida' => 'required|string|max:4',
+        ]);
+    
+        $tipoGas = TipoGas::findOrFail($id);
+        $tipoGas->update($validated);
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'Registro actualizado correctamente.',
+            'data' => $tipoGas,
+        ]);
     }
 
     /**

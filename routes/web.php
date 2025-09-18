@@ -27,6 +27,8 @@ Route::middleware([
     Route::get('/tipogases/list', [TipoGasesController::class, 'list'])->name('tipogases.list');
      //ELIMINAR
     Route::delete('/tipogases/{id}', [TipoGasesController::class, 'destroy'])->name('tipogases.destroy');
+     //EDITAR
+    Route::put('/tipogases/{id}', [TipoGasesController::class, 'update'])->name('tipogases.update');
 });
 
 

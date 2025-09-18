@@ -52,8 +52,7 @@
                                     height="10" stroke-width="1.5" stroke="currentColor" class="size-6">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
-
-                                Guardar
+                                <span x-text="isEditing ? 'Actualizar' : 'Guardar'"></span>
                             </button>
 
                             <button
@@ -378,6 +377,7 @@
                                 </button>
                                 <!-- EDITAR -->
                                 <button
+                                    @click="editItem(tipogas)"
                                     class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
                                     <svg
                                         class="fill-current"
@@ -457,37 +457,76 @@
         </div>
     </div>
 
+
     <script>
         function tipoGasForm() {
             return {
                 descripcion: '',
                 uni_medida: '',
+                isEditing: false,
+                editingId: null,
+
+                init() {
+                    // Escuchar el evento personalizado
+                    window.addEventListener("edit-tipo-gas", (event) => {
+                        const item = event.detail;
+                        this.descripcion = item.descripcion;
+                        this.uni_medida = item.uni_medida;
+                        this.isEditing = true;
+                        this.editingId = item.id;
+                    });
+                },
 
                 async submitForm(event) {
                     event.preventDefault();
 
                     try {
-                        let response = await fetch("{{ route('tipogases.store') }}", {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
-                            },
-                            body: JSON.stringify({
-                                descripcion: this.descripcion,
-                                uni_medida: this.uni_medida,
-                            }),
-                        });
+                        if (this.isEditing) {
+                            // Modo edición: Actualizar el registro
+                            let response = await fetch(`{{ route('tipogases.update', ':id') }}`.replace(':id', this.editingId), {
+                                method: "PUT",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                                },
+                                body: JSON.stringify({
+                                    descripcion: this.descripcion,
+                                    uni_medida: this.uni_medida,
+                                }),
+                            });
 
-                        let result = await response.json();
+                            let result = await response.json();
 
-                        if (result.success) {
-                            this.resetForm();
-                            // refrescar listado
-                            window.dispatchEvent(new CustomEvent("refresh-tipo-gases"));
-                            Swal.fire("Éxito", result.message, "success");
+                            if (result.success) {
+                                this.resetForm();
+                                window.dispatchEvent(new CustomEvent("refresh-tipo-gases"));
+                                Swal.fire("Éxito", "Registro actualizado correctamente.", "success");
+                            } else {
+                                Swal.fire("Error", "No se pudo actualizar el registro.", "error");
+                            }
                         } else {
-                            Swal.fire("Error", "No se pudo guardar.", "error");
+                            // Modo agregar: Crear un nuevo registro
+                            let response = await fetch("{{ route('tipogases.store') }}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                                },
+                                body: JSON.stringify({
+                                    descripcion: this.descripcion,
+                                    uni_medida: this.uni_medida,
+                                }),
+                            });
+
+                            let result = await response.json();
+
+                            if (result.success) {
+                                this.resetForm();
+                                window.dispatchEvent(new CustomEvent("refresh-tipo-gases"));
+                                Swal.fire("Éxito", "Registro guardado correctamente.", "success");
+                            } else {
+                                Swal.fire("Error", "No se pudo guardar el registro.", "error");
+                            }
                         }
                     } catch (error) {
                         console.error(error);
@@ -498,6 +537,8 @@
                 resetForm() {
                     this.descripcion = '';
                     this.uni_medida = '';
+                    this.isEditing = false;
+                    this.editingId = null;
                 }
             }
         }
@@ -610,6 +651,12 @@
                                 });
                         }
                     });
+                },
+
+                editItem(item) {
+                    window.dispatchEvent(new CustomEvent("edit-tipo-gas", {
+                        detail: item
+                    }));
                 }
             }
         }
