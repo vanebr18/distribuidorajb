@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/vanebr18/distribuidorajb/compare/v1.3.0...v1.4.0) (2025-09-18)
+
+
+### Features
+
+* sea agrega función para editar registros ([6470497](https://github.com/vanebr18/distribuidorajb/commit/647049784facd2541432ebaec62eff475c6cc1b2))
+
 ## [1.3.0](https://github.com/vanebr18/distribuidorajb/compare/v1.2.0...v1.3.0) (2025-09-17)
 
 
