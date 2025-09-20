@@ -27,6 +27,13 @@
                             placeholder="Ingrese por Ej.: Zona Sur"
                             x-model="descripcion"
                             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+
+                        <div class="w-full px-2.5 flex items-center" id="frmEstado" x-show="isEditing">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" x-model="estado" class="mr-2">
+                                <span x-text="estado ? 'Activo' : 'Inactivo'"></span>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="w-full px-2.5 flex justify-center items-center">
@@ -338,9 +345,11 @@
                         </div>
                         <div
                             class="col-span-4 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
-                            <p
-                                class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="zonas.uni_medida"></p>
+                            <span
+                                class="inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium text-white"
+                                :class="zonas.estado ? 'bg-success-500' : 'bg-error-500'"
+                                x-text="zonas.estado ? 'ACTIVO' : 'INACTIVO'">
+                            </span>
                         </div>
                         <div class="col-span-1 flex items-center px-4 py-[17.5px]">
                             <div class="flex w-full items-center gap-2">
@@ -449,16 +458,16 @@
         function zonasForm() {
             return {
                 descripcion: '',
-                uni_medida: '',
+                estado: true,
                 isEditing: false,
                 editingId: null,
 
                 init() {
                     // Escuchar el evento personalizado
-                    window.addEventListener("edit-tipo-gas", (event) => {
+                    window.addEventListener("edit-zonas", (event) => {
                         const item = event.detail;
                         this.descripcion = item.descripcion;
-                        this.uni_medida = item.uni_medida;
+                        this.estado = item.estado;
                         this.isEditing = true;
                         this.editingId = item.id;
                     });
@@ -478,7 +487,7 @@
                                 },
                                 body: JSON.stringify({
                                     descripcion: this.descripcion,
-                                    uni_medida: this.uni_medida,
+                                    estado: this.estado,
                                 }),
                             });
 
@@ -486,7 +495,7 @@
 
                             if (result.success) {
                                 this.resetForm();
-                                window.dispatchEvent(new CustomEvent("refresh-tipo-gases"));
+                                window.dispatchEvent(new CustomEvent("refresh-zonas"));
                                 Swal.fire("Éxito", "Registro actualizado correctamente.", "success");
                             } else {
                                 Swal.fire("Error", "No se pudo actualizar el registro.", "error");
@@ -501,7 +510,7 @@
                                 },
                                 body: JSON.stringify({
                                     descripcion: this.descripcion,
-                                    uni_medida: this.uni_medida,
+                                    estado: this.estado,
                                 }),
                             });
 
@@ -509,7 +518,7 @@
 
                             if (result.success) {
                                 this.resetForm();
-                                window.dispatchEvent(new CustomEvent("refresh-tipo-gases"));
+                                window.dispatchEvent(new CustomEvent("refresh-zonas"));
                                 Swal.fire("Éxito", "Registro guardado correctamente.", "success");
                             } else {
                                 Swal.fire("Error", "No se pudo guardar el registro.", "error");
@@ -523,7 +532,7 @@
 
                 resetForm() {
                     this.descripcion = '';
-                    this.uni_medida = '';
+                    this.estado = true;
                     this.isEditing = false;
                     this.editingId = null;
                 }
@@ -563,7 +572,7 @@
                 get filteredData() {
                     return this.data.filter(item =>
                         item.descripcion.toLowerCase().includes(this.search.toLowerCase()) ||
-                        item.uni_medida.toLowerCase().includes(this.search.toLowerCase())
+                        item.estado.toLowerCase().includes(this.search.toLowerCase())
                     );
                 },
 
