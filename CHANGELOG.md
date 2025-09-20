@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/vanebr18/distribuidorajb/compare/v1.6.0...v1.7.0) (2025-09-20)
+
+
+### Bug Fixes
+
+* **table:** corregir busqueda, tener en cuenta valores booleanos ([957724a](https://github.com/vanebr18/distribuidorajb/commit/957724a22a9da7ee7ba91e62944a81997f7eb562))
+
 ## [1.6.0](https://github.com/vanebr18/distribuidorajb/compare/v1.5.0...v1.6.0) (2025-09-20)
 
 
