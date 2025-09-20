@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/vanebr18/distribuidorajb/compare/v1.5.0...v1.6.0) (2025-09-20)
+
+
+### Bug Fixes
+
+* **form,table:** corregir botón editar y visualización de datos en tabla ([f5d9a7b](https://github.com/vanebr18/distribuidorajb/commit/f5d9a7b622da282b3a0b87d9b4c6e7dff4f210b6))
+
 ## [1.5.0](https://github.com/vanebr18/distribuidorajb/compare/v1.4.0...v1.5.0) (2025-09-18)
 
 
