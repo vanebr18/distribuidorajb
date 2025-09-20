@@ -570,10 +570,15 @@
                 },
 
                 get filteredData() {
-                    return this.data.filter(item =>
-                        item.descripcion.toLowerCase().includes(this.search.toLowerCase()) ||
-                        item.estado.toLowerCase().includes(this.search.toLowerCase())
-                    );
+                    return this.data.filter(item => {
+                        const searchLower = this.search.toLowerCase();
+                        const estadoStr = item.estado ? "activo" : "inactivo";
+
+                        return (
+                            item.descripcion.toLowerCase().includes(searchLower) ||
+                            estadoStr.includes(searchLower)
+                        );
+                    });
                 },
 
                 get paginatedData() {
