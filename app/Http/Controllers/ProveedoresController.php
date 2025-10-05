@@ -2,31 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Zonas;
+use App\Models\Proveedor;
 use Illuminate\Http\Request;
 
-class ZonasController extends Controller
+class ProveedoresController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      */
     public function list()
     {
-        $zonas = Zonas::all(['id', 'descripcion', 'estado']);
+        $zonas = Proveedor::all(['id', 'descripcion', 'estado']);
         return response()->json($zonas);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validación
@@ -36,7 +25,7 @@ class ZonasController extends Controller
         ]);
 
         try {
-            $tipo = Zonas::create([
+            $tipo = Proveedor::create([
                 'descripcion' => $request->descripcion,
                 'estado' => $request->estado,
             ]);
@@ -54,35 +43,16 @@ class ZonasController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
             'descripcion' => 'required|string|max:255',
             'estado' => 'required',
         ]);
-
-        $zonas = Zonas::findOrFail($id);
+    
+        $zonas = Proveedor::findOrFail($id);
         $zonas->update($validated);
-
+    
         return response()->json([
             'success' => true,
             'message' => 'Registro actualizado correctamente.',
@@ -90,27 +60,11 @@ class ZonasController extends Controller
         ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        $zonas = Zonas::findOrFail($id);
+        $zonas = Proveedor::findOrFail($id);
         $zonas->delete();
 
         return response()->json(['success' => true, 'message' => 'Registro eliminado correctamente.']);
-    }
-
-    public function getZonas(Request $request)
-    {
-        $q = $request->get('q');
-
-        $zonas = Zonas::select('id', 'descripcion')
-            ->when($q, fn($query) => $query
-            ->where('descripcion', 'like', "%{$q}%"))
-            ->where('estado', '=', true)
-            ->get();
-
-        return response()->json($zonas);
     }
 }

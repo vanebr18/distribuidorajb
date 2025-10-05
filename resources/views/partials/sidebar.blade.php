@@ -124,52 +124,18 @@
                 </li>
                 <li>
                   <a
+                    href="{{ route( 'clientes') }}"
                     class="menu-dropdown-item group"
-                    href="marketing.html"
                     :class="page === 'marketing' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                    Marketing
-                    <span class="absolute right-3 flex items-center gap-1">
-                      <span
-                        class="menu-dropdown-badge"
-                        :class="page === 'marketing' ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive'">
-                        Pro
-                      </span>
-                    </span>
+                    Clientes
                   </a>
                 </li>
                 <li>
                   <a
-                    href="crm.html"
+                    href="{{ route( 'proveedores') }}"
                     class="menu-dropdown-item group"
-                    :class="page === 'crm' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                    CRM
-                    <span class="absolute right-3 flex items-center gap-1">
-                      <span
-                        class="menu-dropdown-badge"
-                        :class="page === 'crm' ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive'">
-                        Pro
-                      </span>
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="stocks.html"
-                    class="menu-dropdown-item group"
-                    :class="page === 'stocks' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
-                    Stocks
-                    <span class="absolute right-3 flex items-center gap-1">
-                      <span
-                        class="menu-dropdown-badge"
-                        :class="page === 'stocks' ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive'">
-                        New
-                      </span>
-                      <span
-                        class="menu-dropdown-badge"
-                        :class="page === 'stocks' ? 'menu-dropdown-badge-active' : 'menu-dropdown-badge-inactive'">
-                        Pro
-                      </span>
-                    </span>
+                    :class="page === 'marketing' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                    Proveedores
                   </a>
                 </li>
               </ul>
