@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.2](https://github.com/vanebr18/distribuidorajb/compare/v1.8.1...v1.8.2) (2025-10-07)
+
+
+### Bug Fixes
+
+* **clientes:** se corrige formulario y tabla ([bd84f8b](https://github.com/vanebr18/distribuidorajb/commit/bd84f8b4c18dd67c9d75254ab36a21144ab0b2cb))
+
 ### [1.8.1](https://github.com/vanebr18/distribuidorajb/compare/v1.8.0...v1.8.1) (2025-10-05)
 
 
