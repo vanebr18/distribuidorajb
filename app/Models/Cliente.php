@@ -22,4 +22,9 @@ class Cliente extends Model
         'estado',
         'zona_id',
     ];
+
+    public function zona()
+    {
+        return $this->belongsTo(Zonas::class, 'zona_id');
+    }
 }

@@ -12,7 +12,10 @@ class ClientesController extends Controller
      */
     public function list()
     {
-        $clientes = Cliente::all(['id', 'nombre', 'direccion', 'telefono', 'estado', 'zona_id']);
+        $clientes = Cliente::with('zona:id,descripcion')
+            ->select('id', 'nombre', 'direccion', 'telefono', 'estado', 'zona_id')
+            ->get();
+
         return response()->json($clientes);
     }
 
@@ -20,14 +23,20 @@ class ClientesController extends Controller
     {
         // Validación
         $request->validate([
-            'descripcion' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'telefono' => 'required|string|max:30',
+            'direccion' => 'required|string|max:255',
             'estado' => 'required',
+            'zona_id' => 'required',
         ]);
 
         try {
             $tipo = Cliente::create([
-                'descripcion' => $request->descripcion,
+                'nombre' => $request->nombre,
+                'telefono' => $request->telefono,
+                'direccion' => $request->direccion,
                 'estado' => $request->estado,
+                'zona_id' => $request->zona_id,
             ]);
 
             return response()->json([
@@ -46,13 +55,16 @@ class ClientesController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'descripcion' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'telefono' => 'required|string|max:30',
+            'direccion' => 'required|string|max:255',
             'estado' => 'required',
+            'zona_id' => 'required',
         ]);
-    
+
         $zonas = Cliente::findOrFail($id);
         $zonas->update($validated);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Registro actualizado correctamente.',
