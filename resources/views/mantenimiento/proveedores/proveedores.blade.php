@@ -1,6 +1,6 @@
 <x-app-layout>
     <!-- Breadcrumb -->
-    <div x-data="{ pageName: `Zonas`}">
+    <div x-data="{ pageName: `Proveedores`}">
         @include('partials.breadcrumb')
     </div>
 
@@ -15,17 +15,17 @@
         </div>
         <div
             class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-            <form method="POST" x-data="zonasForm()" @submit="submitForm" id="frmZonas">
+            <form method="POST" x-data="proveedoresForm()" @submit="submitForm" id="frmProveedores">
                 <div class="-mx-2.5 flex flex-wrap gap-y-5">
-                    <div class="w-full px-2.5 xl:w">
+                    <div class="w-full px-2.5 xl:w-1/2">
                         <label
                             class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Nombre de la Zona
+                            Nombre
                         </label>
                         <input
                             type="text"
-                            placeholder="Ingrese por Ej.: Zona Sur"
-                            x-model="descripcion"
+                            placeholder="Gas Metal S.R.L."
+                            x-model="nombre"
                             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
 
                         <div class="w-full px-2.5 flex items-center" id="frmEstado" x-show="isEditing">
@@ -35,7 +35,41 @@
                             </label>
                         </div>
                     </div>
+                    <div class="w-full px-2.5 xl:w-1/2">
+                        <label
+                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Direccion
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Caaguazú"
+                            x-model="direccion"
+                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                    </div>
+                    <div class="w-full px-2.5 xl:w-1/2">
+                        <label
+                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Teléfono
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="0984567123"
+                            x-model="telefono"
+                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                    </div>
+                    <div class="w-full px-2.5 xl:w-1/2">
+                        <label
+                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                            Alias
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="GM"
+                            x-model="alias"
+                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                    </div>
 
+                    <!-- BOTONES DEL FORMULARIO -->
                     <div class="w-full px-2.5 flex justify-center items-center">
                         <div class="mt-1 flex items-center gap-3">
                             <button
@@ -175,10 +209,8 @@
                 <!-- CABECERA DE LA TABLA -->
                 <div
                     class="grid grid-cols-11 border-t border-gray-200 dark:border-gray-800">
-                    <div
-                        class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div
-                            class="flex w-full cursor-pointer items-center justify-between"
+                    <div class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div class="flex w-full cursor-pointer items-center justify-between"
                             @click="sortBy('id')">
                             <p
                                 class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
@@ -212,13 +244,10 @@
                             </span>
                         </div>
                     </div>
-                    <div
-                        class="col-span-5 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div
-                            class="flex w-full cursor-pointer items-center justify-between"
-                            @click="sortBy('descripcion')">
-                            <p
-                                class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div class="flex w-full cursor-pointer items-center justify-between"
+                            @click="sortBy('nombre')">
+                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
                                 Nombre
                             </p>
 
@@ -249,10 +278,110 @@
                             </span>
                         </div>
                     </div>
-                    <div
-                        class="col-span-4 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div
-                            class="flex w-full cursor-pointer items-center justify-between"
+                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div class="flex w-full cursor-pointer items-center justify-between"
+                            @click="sortBy('alias')">
+                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                                Alias
+                            </p>
+
+                            <span class="flex flex-col gap-0.5">
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
+                                        fill="" />
+                                </svg>
+
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
+                                        fill="" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div class="flex w-full cursor-pointer items-center justify-between"
+                            @click="sortBy('direccion')">
+                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                                Direccion
+                            </p>
+
+                            <span class="flex flex-col gap-0.5">
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
+                                        fill="" />
+                                </svg>
+
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
+                                        fill="" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div class="flex w-full cursor-pointer items-center justify-between"
+                            @click="sortBy('telefono')">
+                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                                Telefono
+                            </p>
+
+                            <span class="flex flex-col gap-0.5">
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
+                                        fill="" />
+                                </svg>
+
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
+                                        fill="" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div class="flex w-full cursor-pointer items-center justify-between"
                             @click="sortBy('estado')">
                             <p
                                 class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
@@ -325,7 +454,7 @@
                 </div>
 
                 <!-- BODY DE LA TABLA -->
-                <template x-for="zonas in paginatedData" :key="zonas.id">
+                <template x-for="proveedores in paginatedData" :key="proveedores.id">
                     <!-- table item -->
                     <div
                         class="grid grid-cols-11 border-t border-gray-100 dark:border-gray-800">
@@ -333,29 +462,47 @@
                             class="col-span-1 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="block text-theme-sm font-medium text-gray-800 dark:text-white/90"
-                                x-text="zonas.id">
+                                x-text="proveedores.id">
                                 1
                             </p>
                         </div>
                         <div
-                            class="col-span-5 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
+                            class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="zonas.descripcion"></p>
+                                x-text="proveedores.nombre"></p>
                         </div>
                         <div
-                            class="col-span-4 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
+                            class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
+                            <p
+                                class="text-theme-sm text-gray-700 dark:text-gray-400"
+                                x-text="proveedores.alias"></p>
+                        </div>
+                        <div
+                            class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
+                            <p
+                                class="text-theme-sm text-gray-700 dark:text-gray-400"
+                                x-text="proveedores.direccion"></p>
+                        </div>
+                        <div
+                            class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
+                            <p
+                                class="text-theme-sm text-gray-700 dark:text-gray-400"
+                                x-text="proveedores.telefono"></p>
+                        </div>
+                        <div
+                            class="col-span-1 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <span
                                 class="inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium text-white"
-                                :class="zonas.estado ? 'bg-success-500' : 'bg-error-500'"
-                                x-text="zonas.estado ? 'ACTIVO' : 'INACTIVO'">
+                                :class="proveedores.estado ? 'bg-success-500' : 'bg-error-500'"
+                                x-text="proveedores.estado ? 'ACTIVO' : 'INACTIVO'">
                             </span>
                         </div>
                         <div class="col-span-1 flex items-center px-4 py-[17.5px]">
                             <div class="flex w-full items-center gap-2">
                                 <!-- ELIMINAR -->
                                 <button
-                                    @click="deleteItem(zonas.id)"
+                                    @click="deleteItem(proveedores.id)"
                                     class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500">
                                     <svg
                                         class="fill-current"
@@ -373,7 +520,7 @@
                                 </button>
                                 <!-- EDITAR -->
                                 <button
-                                    @click="editItem(zonas)"
+                                    @click="editItem(proveedores)"
                                     class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
                                     <svg
                                         class="fill-current"
@@ -455,19 +602,25 @@
 
 
     <script>
-        function zonasForm() {
+        function proveedoresForm() {
             return {
-                descripcion: '',
+                nombre: '',
+                direccion: '',
+                telefono: '',
                 estado: true,
+                alias: '',
                 isEditing: false,
                 editingId: null,
 
                 init() {
                     // Escuchar el evento personalizado
-                    window.addEventListener("edit-zonas", (event) => {
+                    window.addEventListener("edit-proveedores", (event) => {
                         const item = event.detail;
-                        this.descripcion = item.descripcion;
+                        this.nombre = item.nombre;
+                        this.direccion = item.direccion;
+                        this.telefono = item.telefono;
                         this.estado = item.estado;
+                        this.alias = item.alias;
                         this.isEditing = true;
                         this.editingId = item.id;
                     });
@@ -479,15 +632,18 @@
                     try {
                         if (this.isEditing) {
                             // Modo edición: Actualizar el registro
-                            let response = await fetch(`{{ route('zonas.update', ':id') }}`.replace(':id', this.editingId), {
+                            let response = await fetch(`{{ route('proveedores.update', ':id') }}`.replace(':id', this.editingId), {
                                 method: "PUT",
                                 headers: {
                                     "Content-Type": "application/json",
                                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
                                 },
                                 body: JSON.stringify({
-                                    descripcion: this.descripcion,
+                                    nombre: this.nombre,
+                                    direccion: this.direccion,
+                                    telefono: this.telefono,
                                     estado: this.estado,
+                                    alias: this.alias,
                                 }),
                             });
 
@@ -495,22 +651,25 @@
 
                             if (result.success) {
                                 this.resetForm();
-                                window.dispatchEvent(new CustomEvent("refresh-zonas"));
+                                window.dispatchEvent(new CustomEvent("refresh-proveedores"));
                                 Swal.fire("Éxito", "Registro actualizado correctamente.", "success");
                             } else {
                                 Swal.fire("Error", "No se pudo actualizar el registro.", "error");
                             }
                         } else {
                             // Modo agregar: Crear un nuevo registro
-                            let response = await fetch("{{ route('zonas.store') }}", {
+                            let response = await fetch("{{ route('proveedores.store') }}", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
                                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
                                 },
                                 body: JSON.stringify({
-                                    descripcion: this.descripcion,
+                                    nombre: this.nombre,
+                                    direccion: this.direccion,
+                                    telefono: this.telefono,
                                     estado: this.estado,
+                                    alias: this.alias,
                                 }),
                             });
 
@@ -518,7 +677,7 @@
 
                             if (result.success) {
                                 this.resetForm();
-                                window.dispatchEvent(new CustomEvent("refresh-zonas"));
+                                window.dispatchEvent(new CustomEvent("refresh-proveedores"));
                                 Swal.fire("Éxito", "Registro guardado correctamente.", "success");
                             } else {
                                 Swal.fire("Error", "No se pudo guardar el registro.", "error");
@@ -531,8 +690,11 @@
                 },
 
                 resetForm() {
-                    this.descripcion = '';
+                    this.nombre = '';
+                    this.direccion = '';
+                    this.telefono = '';
                     this.estado = true;
+                    this.alias = '';
                     this.isEditing = false;
                     this.editingId = null;
                 }
@@ -550,11 +712,11 @@
 
                 async init() {
                     await this.fetchData();
-                    window.addEventListener("refresh-zonas", () => this.fetchData());
+                    window.addEventListener("refresh-proveedores", () => this.fetchData());
                 },
 
                 async fetchData() {
-                    let response = await fetch("{{ route('zonas.list') }}");
+                    let response = await fetch("{{ route('proveedores.list') }}");
                     this.data = await response.json();
                 },
 
@@ -575,7 +737,10 @@
                         const estadoStr = item.estado ? "activo" : "inactivo";
 
                         return (
-                            item.descripcion.toLowerCase().includes(searchLower) ||
+                            item.nombre.toLowerCase().includes(searchLower) ||
+                            item.direccion.toLowerCase().includes(searchLower) ||
+                            item.telefono.toLowerCase().includes(searchLower) ||
+                            item.alias.toLowerCase().includes(searchLower) ||
                             estadoStr.includes(searchLower)
                         );
                     });
@@ -631,7 +796,7 @@
                         cancelButtonText: "Cancelar",
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            fetch(`{{ route('zonas.destroy', ':id') }}`.replace(':id', id), {
+                            fetch(`{{ route('proveedores.destroy', ':id') }}`.replace(':id', id), {
                                     method: "DELETE",
                                     headers: {
                                         "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
@@ -655,7 +820,7 @@
                 },
 
                 editItem(item) {
-                    window.dispatchEvent(new CustomEvent("edit-zonas", {
+                    window.dispatchEvent(new CustomEvent("edit-proveedores", {
                         detail: item
                     }));
                 }

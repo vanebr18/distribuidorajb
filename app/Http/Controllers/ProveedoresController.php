@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class ProveedoresController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
     public function list()
     {
-        $zonas = Proveedor::all(['id', 'descripcion', 'estado']);
+        $zonas = Proveedor::all(['id', 'nombre', 'direccion', 'telefono', 'estado', 'alias']);
         return response()->json($zonas);
     }
 
@@ -20,14 +20,20 @@ class ProveedoresController extends Controller
     {
         // Validación
         $request->validate([
-            'descripcion' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'telefono' => 'required|string|max:20',
             'estado' => 'required',
+            'alias' => 'required|string|max:10',
         ]);
 
         try {
             $tipo = Proveedor::create([
-                'descripcion' => $request->descripcion,
+                'nombre' => $request->nombre,
+                'direccion' => $request->direccion,
+                'telefono' => $request->telefono,
                 'estado' => $request->estado,
+                'alias' => $request->alias,
             ]);
 
             return response()->json([
@@ -46,13 +52,16 @@ class ProveedoresController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = $request->validate([
-            'descripcion' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255',
+            'telefono' => 'required|string|max:20',
             'estado' => 'required',
+            'alias' => 'required|string|max:10',
         ]);
-    
+
         $zonas = Proveedor::findOrFail($id);
         $zonas->update($validated);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Registro actualizado correctamente.',
