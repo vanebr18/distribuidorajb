@@ -48,6 +48,21 @@ Route::middleware([
      //RELLENAR SELECT
      Route::get('/zonas', [ZonasController::class, 'getZonas'])->name('zonas.json');
 
+
+     ## CLIENTES
+    Route::get('/mantenimiento/clientes', function () {
+        return view('mantenimiento.clientes.clientes');
+    })->name('clientes');
+     //AGREGAR
+    Route::post('/mantenimiento/clientes', [ClientesController::class, 'store'])->name('clientes.store');
+     // LISTAR
+    Route::get('/clientes/list', [ClientesController::class, 'list'])->name('clientes.list');
+     //ELIMINAR
+    Route::delete('/clientes/{id}', [ClientesController::class, 'destroy'])->name('clientes.destroy');
+     //EDIA
+    Route::put('/clientes/{id}', [ClientesController::class, 'update'])->name('clientes.update');
+
+    
     ## PROVEEDORES
     Route::get('/mantenimiento/proveedores', function () {
         return view('mantenimiento.proveedores.proveedores');
@@ -60,19 +75,6 @@ Route::middleware([
     Route::delete('/proveedores/{id}', [ProveedoresController::class, 'destroy'])->name('proveedores.destroy');
      //EDITAR
     Route::put('/proveedores/{id}', [ProveedoresController::class, 'update'])->name('proveedores.update');
-
-    ## CLIENTES
-    Route::get('/mantenimiento/clientes', function () {
-        return view('mantenimiento.clientes.clientes');
-    })->name('clientes');
-     //AGREGAR
-    Route::post('/mantenimiento/clientes', [ClientesController::class, 'store'])->name('clientes.store');
-     // LISTAR
-    Route::get('/clientes/list', [ClientesController::class, 'list'])->name('clientes.list');
-     //ELIMINAR
-    Route::delete('/clientes/{id}', [ClientesController::class, 'destroy'])->name('clientes.destroy');
-     //EDIA
-    Route::put('/clientes/{id}', [ClientesController::class, 'update'])->name('clientes.update');
 });
 
 
