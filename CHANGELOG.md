@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/vanebr18/distribuidorajb/compare/v1.8.2...v1.9.0) (2025-10-09)
+
+
+### Features
+
+* **proveedores:** implementar CRUD completo de proveedores ([8cfbdc7](https://github.com/vanebr18/distribuidorajb/commit/8cfbdc7b2c398811c9ce183034f31df60fe3810a))
+
 ### [1.8.2](https://github.com/vanebr18/distribuidorajb/compare/v1.8.1...v1.8.2) (2025-10-07)
 
 
