@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -26,5 +27,10 @@ class Cliente extends Model
     public function zona()
     {
         return $this->belongsTo(Zonas::class, 'zona_id');
+    }
+
+    public function tubos(): HasMany
+    {
+        return $this->hasMany(Tubos::class);
     }
 }

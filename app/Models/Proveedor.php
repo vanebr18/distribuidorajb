@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -22,4 +23,9 @@ class Proveedor extends Model
         'telefono',
         'estado',
     ];
+
+    public function proveedor():HasMany
+    {
+        return $this->hasMany(Proveedor::class);
+    }
 }

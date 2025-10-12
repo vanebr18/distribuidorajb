@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts-app page="dashboard">
     <div class="grid grid-cols-12 gap-4 md:gap-6">
 
         <!-- ===== Left Column: Metrics & Chart One ===== -->
@@ -43,4 +43,4 @@
         </div>
 
     </div>
-</x-app-layout>
+</x-layouts-app>

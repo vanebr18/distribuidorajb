@@ -100,4 +100,17 @@ class TipoGasesController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Registro eliminado correctamente.']);
     }
+
+    public function getGas(Request $request)
+    {
+        $q = $request->get('q');
+
+        $gas = TipoGas::select('id', 'descripcion')
+            ->when($q, fn($query) => $query
+            ->where('descripcion', 'like', "%{$q}%"))
+            ->where('estado', '=', true)
+            ->get();
+
+        return response()->json($gas);
+    }
 }

@@ -62,21 +62,34 @@ class ClientesController extends Controller
             'zona_id' => 'required',
         ]);
 
-        $zonas = Cliente::findOrFail($id);
-        $zonas->update($validated);
+        $clientes = Cliente::findOrFail($id);
+        $clientes->update($validated);
 
         return response()->json([
             'success' => true,
             'message' => 'Registro actualizado correctamente.',
-            'data' => $zonas,
+            'data' => $clientes,
         ]);
     }
 
     public function destroy(string $id)
     {
-        $zonas = Cliente::findOrFail($id);
-        $zonas->delete();
+        $clientes = Cliente::findOrFail($id);
+        $clientes->delete();
 
         return response()->json(['success' => true, 'message' => 'Registro eliminado correctamente.']);
+    }
+
+    public function getClientes(Request $request)
+    {
+        $q = $request->get('q');
+
+        $clientes = Cliente::select('id', 'nombre')
+            ->when($q, fn($query) => $query
+            ->where('nombre', 'like', "%{$q}%"))
+            ->where('estado', '=', true)
+            ->get();
+
+        return response()->json($clientes);
     }
 }

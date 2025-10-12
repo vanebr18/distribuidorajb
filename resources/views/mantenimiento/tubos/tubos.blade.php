@@ -1,6 +1,6 @@
-<x-layouts-app page="proveedores">
+<x-layouts-app page="tubos">
     <!-- Breadcrumb -->
-    <div x-data="{ pageName: `Proveedores`}">
+    <div x-data="{ pageName: `Tubos`}">
         @include('partials.breadcrumb')
     </div>
 
@@ -15,18 +15,25 @@
         </div>
         <div
             class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-            <form method="POST" x-data="proveedoresForm()" @submit="submitForm" id="frmProveedores">
+            <form method="POST" x-data="tubosForm()" @submit="submitForm" id="frmClientes">
                 <div class="-mx-2.5 flex flex-wrap gap-y-5">
-                    <div class="w-full px-2.5 xl:w-1/2">
+                    <div class="w-full px-2.5 xl:w-1/3">
                         <label
                             class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Nombre
+                            N° de Tubo
                         </label>
                         <input
                             type="text"
-                            placeholder="Gas Metal S.R.L."
-                            x-model="nombre"
+                            placeholder="118902"
+                            x-model="nro_tubo"
                             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+
+                        <div class="w-full px-2.5 flex items-center">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" x-model="propio" class="mr-2">
+                                <span x-text="propio ? 'Propio' : 'Otro Dueño'">Propio</span>
+                            </label>
+                        </div>
 
                         <div class="w-full px-2.5 flex items-center" id="frmEstado" x-show="isEditing">
                             <label class="inline-flex items-center">
@@ -35,41 +42,37 @@
                             </label>
                         </div>
                     </div>
-                    <div class="w-full px-2.5 xl:w-1/2">
-                        <label
-                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Direccion
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="Caaguazú"
-                            x-model="direccion"
-                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                    <div x-data="zonasSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Gas</label>
+                        <select
+                            x-ref="zonasSelect"
+                            name="zona_id"
+                            :class="isOptionSelectedZona && 'text-gray-500 dark:text-gray-400'"
+                            @change="isOptionSelectedZona = $event.target.value !== ''">
+                            <option value="" disabled selected>Seleccione una zona</option>
+                        </select>
                     </div>
-                    <div class="w-full px-2.5 xl:w-1/2">
-                        <label
-                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Teléfono
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="0984567123"
-                            x-model="telefono"
-                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                    <div x-data="zonasSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Cliente</label>
+                        <select
+                            x-ref="zonasSelect"
+                            name="zona_id"
+                            :class="isOptionSelectedZona && 'text-gray-500 dark:text-gray-400'"
+                            @change="isOptionSelectedZona = $event.target.value !== ''">
+                            <option value="" disabled selected>Seleccione una zona</option>
+                        </select>
                     </div>
-                    <div class="w-full px-2.5 xl:w-1/2">
-                        <label
-                            class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                            Alias
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="GM"
-                            x-model="alias"
-                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
+                    <div x-data="zonasSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Proveedor</label>
+                        <select
+                            x-ref="zonasSelect"
+                            name="zona_id"
+                            :class="isOptionSelectedZona && 'text-gray-500 dark:text-gray-400'"
+                            @change="isOptionSelectedZona = $event.target.value !== ''">
+                            <option value="" disabled selected>Seleccione una zona</option>
+                        </select>
                     </div>
-
-                    <!-- BOTONES DEL FORMULARIO -->
+                    <!--BOTONES DEL FORM -->
                     <div class="w-full px-2.5 flex justify-center items-center">
                         <div class="mt-1 flex items-center gap-3">
                             <button
@@ -209,8 +212,10 @@
                 <!-- CABECERA DE LA TABLA -->
                 <div
                     class="grid grid-cols-11 border-t border-gray-200 dark:border-gray-800">
-                    <div class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div class="flex w-full cursor-pointer items-center justify-between"
+                    <div
+                        class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div
+                            class="flex w-full cursor-pointer items-center justify-between"
                             @click="sortBy('id')">
                             <p
                                 class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
@@ -244,10 +249,13 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div class="flex w-full cursor-pointer items-center justify-between"
+                    <div
+                        class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div
+                            class="flex w-full cursor-pointer items-center justify-between"
                             @click="sortBy('nombre')">
-                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                            <p
+                                class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
                                 Nombre
                             </p>
 
@@ -278,44 +286,13 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div class="flex w-full cursor-pointer items-center justify-between"
-                            @click="sortBy('alias')">
-                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
-                                Alias
-                            </p>
-
-                            <span class="flex flex-col gap-0.5">
-                                <svg
-                                    class="fill-gray-300 dark:fill-gray-700"
-                                    width="8"
-                                    height="5"
-                                    viewBox="0 0 8 5"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
-                                        fill="" />
-                                </svg>
-
-                                <svg
-                                    class="fill-gray-300 dark:fill-gray-700"
-                                    width="8"
-                                    height="5"
-                                    viewBox="0 0 8 5"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
-                                        fill="" />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div class="flex w-full cursor-pointer items-center justify-between"
+                    <div
+                        class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div
+                            class="flex w-full cursor-pointer items-center justify-between"
                             @click="sortBy('direccion')">
-                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                            <p
+                                class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
                                 Direccion
                             </p>
 
@@ -346,11 +323,14 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div class="flex w-full cursor-pointer items-center justify-between"
+                    <div
+                        class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div
+                            class="flex w-full cursor-pointer items-center justify-between"
                             @click="sortBy('telefono')">
-                            <p class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
-                                Telefono
+                            <p
+                                class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                                Teléfono
                             </p>
 
                             <span class="flex flex-col gap-0.5">
@@ -380,8 +360,47 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
-                        <div class="flex w-full cursor-pointer items-center justify-between"
+                    <div
+                        class="col-span-2 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div
+                            class="flex w-full cursor-pointer items-center justify-between"
+                            @click="sortBy('zona')">
+                            <p
+                                class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                                Zona
+                            </p>
+
+                            <span class="flex flex-col gap-0.5">
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 0.585167C4.21057 0.300808 3.78943 0.300807 3.59038 0.585166L1.05071 4.21327C0.81874 4.54466 1.05582 5 1.46033 5H6.53967C6.94418 5 7.18126 4.54466 6.94929 4.21327L4.40962 0.585167Z"
+                                        fill="" />
+                                </svg>
+
+                                <svg
+                                    class="fill-gray-300 dark:fill-gray-700"
+                                    width="8"
+                                    height="5"
+                                    viewBox="0 0 8 5"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M4.40962 4.41483C4.21057 4.69919 3.78943 4.69919 3.59038 4.41483L1.05071 0.786732C0.81874 0.455343 1.05582 0 1.46033 0H6.53967C6.94418 0 7.18126 0.455342 6.94929 0.786731L4.40962 4.41483Z"
+                                        fill="" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div
+                        class="col-span-1 flex items-center border-r border-gray-200 px-4 py-3 dark:border-gray-800">
+                        <div
+                            class="flex w-full cursor-pointer items-center justify-between"
                             @click="sortBy('estado')">
                             <p
                                 class="text-theme-xs font-medium text-gray-700 dark:text-gray-400">
@@ -454,7 +473,7 @@
                 </div>
 
                 <!-- BODY DE LA TABLA -->
-                <template x-for="proveedores in paginatedData" :key="proveedores.id">
+                <template x-for="clientes in paginatedData" :key="clientes.id">
                     <!-- table item -->
                     <div
                         class="grid grid-cols-11 border-t border-gray-100 dark:border-gray-800">
@@ -462,7 +481,7 @@
                             class="col-span-1 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="block text-theme-sm font-medium text-gray-800 dark:text-white/90"
-                                x-text="proveedores.id">
+                                x-text="clientes.id">
                                 1
                             </p>
                         </div>
@@ -470,39 +489,39 @@
                             class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="proveedores.nombre"></p>
+                                x-text="clientes.nombre"></p>
                         </div>
                         <div
                             class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="proveedores.alias"></p>
+                                x-text="clientes.direccion"></p>
                         </div>
                         <div
                             class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="proveedores.direccion"></p>
+                                x-text="clientes.telefono"></p>
                         </div>
                         <div
                             class="col-span-2 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <p
                                 class="text-theme-sm text-gray-700 dark:text-gray-400"
-                                x-text="proveedores.telefono"></p>
+                                x-text="clientes.zona.descripcion"></p>
                         </div>
                         <div
                             class="col-span-1 flex items-center border-r border-gray-100 px-4 py-[17.5px] dark:border-gray-800">
                             <span
                                 class="inline-flex items-center justify-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium text-white"
-                                :class="proveedores.estado ? 'bg-success-500' : 'bg-error-500'"
-                                x-text="proveedores.estado ? 'ACTIVO' : 'INACTIVO'">
+                                :class="clientes.estado ? 'bg-success-500' : 'bg-error-500'"
+                                x-text="clientes.estado ? 'ACTIVO' : 'INACTIVO'">
                             </span>
                         </div>
                         <div class="col-span-1 flex items-center px-4 py-[17.5px]">
                             <div class="flex w-full items-center gap-2">
                                 <!-- ELIMINAR -->
                                 <button
-                                    @click="deleteItem(proveedores.id)"
+                                    @click="deleteItem(clientes.id)"
                                     class="text-gray-500 hover:text-error-500 dark:text-gray-400 dark:hover:text-error-500">
                                     <svg
                                         class="fill-current"
@@ -520,7 +539,7 @@
                                 </button>
                                 <!-- EDITAR -->
                                 <button
-                                    @click="editItem(proveedores)"
+                                    @click="editItem(clientes)"
                                     class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white/90">
                                     <svg
                                         class="fill-current"
@@ -591,10 +610,14 @@
                 </div>
 
                 <p
+                    x-show="totalEntries > 0"
                     class="border-t border-gray-100 pt-3 text-center text-sm font-medium text-gray-500 dark:border-gray-800 dark:text-gray-400 xl:border-t-0 xl:pt-0 xl:text-left">
                     Mostrando <span x-text="startEntry"></span> al
                     <span x-text="endEntry"></span> de
                     <span x-text="totalEntries"></span> registros
+                </p>
+                <p x-show="totalEntries === 0" class="text-center text-sm text-gray-400">
+                    No hay registros aún.
                 </p>
             </div>
         </div>
@@ -602,25 +625,82 @@
 
 
     <script>
-        function proveedoresForm() {
+        function zonasSelect() {
             return {
-                nombre: '',
-                direccion: '',
-                telefono: '',
+                isOptionSelectedZona: false,
+
+                init() {
+                    const select = this.$refs.zonasSelect;
+
+                    // 1) Traer todas las zonas desde Laravel
+                    fetch("{{ route('zonas.json') }}")
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.json();
+                        })
+                        .then(data => {
+                            // 2) Poblar <select> (limpiamos excepto la opción placeholder)
+                            select.innerHTML = '<option value="" disabled selected>Seleccione una zona</option>';
+                            data.forEach(z => {
+                                const opt = document.createElement('option');
+                                opt.value = z.id;
+                                opt.textContent = z.descripcion;
+                                select.appendChild(opt);
+                            });
+
+
+                            if (select.tomselect) {
+                                select.tomselect.destroy();
+                            }
+
+
+                            // 3) Inicializar Tom Select sobre el select poblado
+                            new TomSelect(select, {
+                                valueField: 'id',
+                                labelField: 'descripcion',
+                                searchField: 'descripcion',
+                                load: (query, callback) => {
+                                    if (!query.length) return callback();
+                                    fetch("{{ route('zonas.json') }}?q=" + encodeURIComponent(query))
+                                        .then(res => res.json())
+                                        .then(json => callback(json))
+                                        .catch(() => callback());
+                                },
+                                // 4) evento para mantener el estado en Alpine
+                                onChange: (value) => {
+                                    const formComponent = Alpine.$data(document.getElementById('frmClientes'));
+                                    formComponent.zona_id = value; // actualiza Alpine manualmente
+                                }
+                            });
+                        })
+                        .catch(err => {
+                            console.error('Error cargando zonas:', err);
+                        });
+                }
+            }
+        }
+
+        function tubosForm() {
+            return {
+                nro_tubo: '',
+                capacidad: '',
                 estado: true,
-                alias: '',
+                propio: true,
+                tipogas_id: null,
+                cliente_id: null,
+                proveedor_id: null,
                 isEditing: false,
                 editingId: null,
 
                 init() {
                     // Escuchar el evento personalizado
-                    window.addEventListener("edit-proveedores", (event) => {
+                    window.addEventListener("edit-clientes", (event) => {
                         const item = event.detail;
                         this.nombre = item.nombre;
-                        this.direccion = item.direccion;
                         this.telefono = item.telefono;
+                        this.direccion = item.direccion;
                         this.estado = item.estado;
-                        this.alias = item.alias;
+                        this.zona_id = item.zona_id;
                         this.isEditing = true;
                         this.editingId = item.id;
                     });
@@ -632,7 +712,7 @@
                     try {
                         if (this.isEditing) {
                             // Modo edición: Actualizar el registro
-                            let response = await fetch(`{{ route('proveedores.update', ':id') }}`.replace(':id', this.editingId), {
+                            let response = await fetch(`{{ route('clientes.update', ':id') }}`.replace(':id', this.editingId), {
                                 method: "PUT",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -640,10 +720,10 @@
                                 },
                                 body: JSON.stringify({
                                     nombre: this.nombre,
-                                    direccion: this.direccion,
                                     telefono: this.telefono,
+                                    direccion: this.direccion,
                                     estado: this.estado,
-                                    alias: this.alias,
+                                    zona_id: this.zona_id,
                                 }),
                             });
 
@@ -651,14 +731,14 @@
 
                             if (result.success) {
                                 this.resetForm();
-                                window.dispatchEvent(new CustomEvent("refresh-proveedores"));
+                                window.dispatchEvent(new CustomEvent("refresh-clientes"));
                                 Swal.fire("Éxito", "Registro actualizado correctamente.", "success");
                             } else {
                                 Swal.fire("Error", "No se pudo actualizar el registro.", "error");
                             }
                         } else {
                             // Modo agregar: Crear un nuevo registro
-                            let response = await fetch("{{ route('proveedores.store') }}", {
+                            let response = await fetch("{{ route('clientes.store') }}", {
                                 method: "POST",
                                 headers: {
                                     "Content-Type": "application/json",
@@ -666,10 +746,10 @@
                                 },
                                 body: JSON.stringify({
                                     nombre: this.nombre,
-                                    direccion: this.direccion,
                                     telefono: this.telefono,
+                                    direccion: this.direccion,
                                     estado: this.estado,
-                                    alias: this.alias,
+                                    zona_id: this.zona_id,
                                 }),
                             });
 
@@ -677,7 +757,7 @@
 
                             if (result.success) {
                                 this.resetForm();
-                                window.dispatchEvent(new CustomEvent("refresh-proveedores"));
+                                window.dispatchEvent(new CustomEvent("refresh-clientes"));
                                 Swal.fire("Éxito", "Registro guardado correctamente.", "success");
                             } else {
                                 Swal.fire("Error", "No se pudo guardar el registro.", "error");
@@ -691,10 +771,10 @@
 
                 resetForm() {
                     this.nombre = '';
-                    this.direccion = '';
                     this.telefono = '';
+                    this.direccion = '';
                     this.estado = true;
-                    this.alias = '';
+                    this.zona_id = null;
                     this.isEditing = false;
                     this.editingId = null;
                 }
@@ -712,12 +792,13 @@
 
                 async init() {
                     await this.fetchData();
-                    window.addEventListener("refresh-proveedores", () => this.fetchData());
+                    window.addEventListener("refresh-clientes", () => this.fetchData());
                 },
 
                 async fetchData() {
-                    let response = await fetch("{{ route('proveedores.list') }}");
+                    let response = await fetch("{{ route('clientes.list') }}");
                     this.data = await response.json();
+                    console.log("Clientes cargados:", this.data);
                 },
 
                 get pagesAroundCurrent() {
@@ -740,13 +821,14 @@
                             item.nombre.toLowerCase().includes(searchLower) ||
                             item.direccion.toLowerCase().includes(searchLower) ||
                             item.telefono.toLowerCase().includes(searchLower) ||
-                            item.alias.toLowerCase().includes(searchLower) ||
+                            item.zona.descripcion.toLowerCase().includes(searchLower) ||
                             estadoStr.includes(searchLower)
                         );
                     });
                 },
 
                 get paginatedData() {
+
                     let start = (this.currentPage - 1) * this.perPage;
                     return this.filteredData.slice(start, start + this.perPage);
                 },
@@ -766,10 +848,11 @@
                 },
 
                 get startEntry() {
-                    return (this.currentPage - 1) * this.perPage + 1;
+                    return this.totalEntries === 0 ? 0 : (this.currentPage - 1) * this.perPage + 1;
                 },
 
                 get endEntry() {
+                    if (this.totalEntries === 0) return 0;
                     const end = this.currentPage * this.perPage;
                     return end > this.totalEntries ? this.totalEntries : end;
                 },
@@ -796,7 +879,7 @@
                         cancelButtonText: "Cancelar",
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            fetch(`{{ route('proveedores.destroy', ':id') }}`.replace(':id', id), {
+                            fetch(`{{ route('clientes.destroy', ':id') }}`.replace(':id', id), {
                                     method: "DELETE",
                                     headers: {
                                         "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
@@ -820,14 +903,13 @@
                 },
 
                 editItem(item) {
-                    window.dispatchEvent(new CustomEvent("edit-proveedores", {
+                    window.dispatchEvent(new CustomEvent("edit-clientes", {
                         detail: item
                     }));
                 }
             }
         }
     </script>
-    <!-- DataTable Two -->
 
     <script>
         function dropdown() {

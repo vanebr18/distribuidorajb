@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts-app page="tipo-gases">
     <!-- Breadcrumb -->
     <div x-data="{ pageName: `Tipos de Gases`}">
         @include('partials.breadcrumb')
@@ -711,4 +711,4 @@
             };
         }
     </script>
-</x-app-layout>
+</x-layouts-app>

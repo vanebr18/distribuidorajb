@@ -4,6 +4,7 @@ use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\ProveedoresController;
 use App\Http\Controllers\TipoGasesController;
 use App\Http\Controllers\ZonasController;
+use App\Models\TipoGas;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,57 +25,74 @@ Route::middleware([
     Route::get('/mantenimiento/tipo-gas', function () {
         return view('mantenimiento.tipo-gas.tipo-gases');
     })->name('tipo-gases');
-     //AGREGAR
+    //AGREGAR
     Route::post('/mantenimiento/tipo-gases', [TipoGasesController::class, 'store'])->name('tipogases.store');
-     // LISTAR
+    // LISTAR
     Route::get('/tipogases/list', [TipoGasesController::class, 'list'])->name('tipogases.list');
-     //ELIMINAR
+    //ELIMINAR
     Route::delete('/tipogases/{id}', [TipoGasesController::class, 'destroy'])->name('tipogases.destroy');
-     //EDITAR
+    //EDITAR
     Route::put('/tipogases/{id}', [TipoGasesController::class, 'update'])->name('tipogases.update');
+    //RELLENAR SELECT
+    Route::get('/tipogases', [TipoGasesController::class, 'getGas'])->name('tipogases.json');
 
-     ## ZONAS
-     Route::get('/mantenimiento/zonas', function () {
+    ## ZONAS
+    Route::get('/mantenimiento/zonas', function () {
         return view('mantenimiento.zonas.zonas');
     })->name('zonas');
-     //AGREGAR
+    //AGREGAR
     Route::post('/mantenimiento/zonas', [ZonasController::class, 'store'])->name('zonas.store');
-     // LISTAR
+    // LISTAR
     Route::get('/zonas/list', [ZonasController::class, 'list'])->name('zonas.list');
-     //ELIMINAR
+    //ELIMINAR
     Route::delete('/zonas/{id}', [ZonasController::class, 'destroy'])->name('zonas.destroy');
-     //EDITAR
+    //EDITAR
     Route::put('/zonas/{id}', [ZonasController::class, 'update'])->name('zonas.update');
-     //RELLENAR SELECT
-     Route::get('/zonas', [ZonasController::class, 'getZonas'])->name('zonas.json');
+    //RELLENAR SELECT
+    Route::get('/zonas', [ZonasController::class, 'getZonas'])->name('zonas.json');
 
-
-     ## CLIENTES
+    ## CLIENTES
     Route::get('/mantenimiento/clientes', function () {
         return view('mantenimiento.clientes.clientes');
     })->name('clientes');
-     //AGREGAR
+    //AGREGAR
     Route::post('/mantenimiento/clientes', [ClientesController::class, 'store'])->name('clientes.store');
-     // LISTAR
+    // LISTAR
     Route::get('/clientes/list', [ClientesController::class, 'list'])->name('clientes.list');
-     //ELIMINAR
+    //ELIMINAR
     Route::delete('/clientes/{id}', [ClientesController::class, 'destroy'])->name('clientes.destroy');
-     //EDIA
+    //EDITAR
     Route::put('/clientes/{id}', [ClientesController::class, 'update'])->name('clientes.update');
+    //RELLENAR SELECT
+    Route::get('/clientes', [ClientesController::class, 'getClientes'])->name('clientes.json');
 
-    
     ## PROVEEDORES
     Route::get('/mantenimiento/proveedores', function () {
         return view('mantenimiento.proveedores.proveedores');
     })->name('proveedores');
-     //AGREGAR
+    //AGREGAR
     Route::post('/mantenimiento/proveedores', [ProveedoresController::class, 'store'])->name('proveedores.store');
-     // LISTAR
+    // LISTAR
     Route::get('/proveedores/list', [ProveedoresController::class, 'list'])->name('proveedores.list');
-     //ELIMINAR
+    //ELIMINAR
     Route::delete('/proveedores/{id}', [ProveedoresController::class, 'destroy'])->name('proveedores.destroy');
-     //EDITAR
+    //EDITAR
     Route::put('/proveedores/{id}', [ProveedoresController::class, 'update'])->name('proveedores.update');
+    //RELLENAR SELECT
+    Route::get('/proveedores', [ProveedoresController::class, 'getProveedor'])->name('proveedores.json');
+
+    ## TUBOS
+    Route::get('/mantenimiento/tubos', function () {
+        return view('mantenimiento.tubos.tubos');
+    })->name('tubos');
+    //AGREGAR
+    Route::post('/mantenimiento/tubos', [ClientesController::class, 'store'])->name('tubos.store');
+    // LISTAR
+    Route::get('/tubos/list', [ClientesController::class, 'list'])->name('tubos.list');
+    //ELIMINAR
+    Route::delete('/tubos/{id}', [ClientesController::class, 'destroy'])->name('tubos.destroy');
+    //EDITARtubos
+    Route::put('/tubos/{id}', [ClientesController::class, 'update'])->name('tubos.update');
 });
 
 

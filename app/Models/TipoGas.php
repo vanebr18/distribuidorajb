@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -20,4 +21,8 @@ class TipoGas extends Model
         'uni_medida',
     ];
 
+    public function tubos(): HasMany
+    {
+        return $this->hasMany(Tubos::class);
+    }
 }

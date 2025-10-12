@@ -55,15 +55,15 @@
         </h3>
 
         <ul class="mb-6 flex flex-col gap-4">
-          <!-- Menu Item Dashboard -->
+          <!-- Menu Item Mantenimiento -->
           <li>
             <a
               href="#"
-              @click.prevent="selected = (selected === 'Dashboard' ? '':'Dashboard')"
+              @click.prevent="selected = (selected === 'Mantenimiento' ? '':'Mantenimiento')"
               class="menu-item group"
-              :class=" (selected === 'Dashboard') || (page === 'ecommerce' || page === 'analytics' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'">
+              :class=" (selected === 'Mantenimiento') || (page === 'dashboard' || page === 'tipo-gases' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-active' : 'menu-item-inactive'">
               <svg
-                :class="(selected === 'Dashboard') || (page === 'ecommerce' || page === 'analytics' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
+                :class="(selected === 'Mantenimiento') || (page === 'dashboard' || page === 'tipo-gases' || page === 'marketing' || page === 'crm' || page === 'stocks') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -84,7 +84,7 @@
 
               <svg
                 class="menu-item-arrow"
-                :class="[(selected === 'Dashboard') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '' ]"
+                :class="[(selected === 'Mantenimiento') ? 'menu-item-arrow-active' : 'menu-item-arrow-inactive', sidebarToggle ? 'lg:hidden' : '' ]"
                 width="20"
                 height="20"
                 viewBox="0 0 20 20"
@@ -102,7 +102,7 @@
             <!-- Dropdown Menu Start -->
             <div
               class="translate transform overflow-hidden"
-              :class="(selected === 'Dashboard') ? 'block' :'hidden'">
+              :class="(selected === 'Mantenimiento') ? 'block' :'hidden'">
               <ul
                 :class="sidebarToggle ? 'lg:hidden' : 'flex'"
                 class="menu-dropdown mt-2 flex flex-col gap-1 pl-9">
@@ -110,7 +110,7 @@
                   <a
                     href="{{ route( 'tipo-gases') }}"
                     class="menu-dropdown-item group"
-                    :class="page === 'ecommerce' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                    :class="page === 'tipo-gases' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                     Tipos de Gases
                   </a>
                 </li>
@@ -118,7 +118,7 @@
                   <a
                     href="{{ route( 'zonas') }}"
                     class="menu-dropdown-item group"
-                    :class="page === 'analytics' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                    :class="page === 'zonas' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                     Zonas
                   </a>
                 </li>
@@ -126,7 +126,7 @@
                   <a
                     href="{{ route( 'clientes') }}"
                     class="menu-dropdown-item group"
-                    :class="page === 'marketing' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                    :class="page === 'clientes' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                     Clientes
                   </a>
                 </li>
@@ -134,15 +134,23 @@
                   <a
                     href="{{ route( 'proveedores') }}"
                     class="menu-dropdown-item group"
-                    :class="page === 'marketing' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                    :class="page === 'proveedores' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
                     Proveedores
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="{{ route( 'tubos') }}"
+                    class="menu-dropdown-item group"
+                    :class="page === 'tubos' ? 'menu-dropdown-item-active' : 'menu-dropdown-item-inactive'">
+                    Tubos
                   </a>
                 </li>
               </ul>
             </div>
             <!-- Dropdown Menu End -->
           </li>
-          <!-- Menu Item Dashboard -->
+          <!-- Menu Item Mantenimiento -->
 
           <!-- Menu Item Calendar -->
           <li>
@@ -1174,7 +1182,7 @@
         TailAdmin Pro
       </h3>
       <p class="mb-4 text-theme-sm text-gray-500 dark:text-gray-400">
-        Get All Dashboards and 300+ UI Elements
+        Get All Mantenimientos and 300+ UI Elements
       </p>
       <a
         href="https://tailadmin.com/pricing"

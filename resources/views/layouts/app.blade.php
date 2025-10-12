@@ -16,7 +16,26 @@
 </head>
 
 <body
-    x-data="{ page: 'ecommerce', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-data="{
+        page: '{{ $page ?? 'dashboard' }}',
+        'loaded': true, 
+        'darkMode': false,
+        'stickyMenu': false,
+        'sidebarToggle': false,
+        'scrollTop': false,
+        pages: {
+            dashboard: 'dashboard',
+            mantenimiento: ['tipo-gases', 'zonas', 'clientes', 'proveedores', 'tubos'],
+            calendar: 'calendar',
+        },
+
+        isInGroup(groupPages) {
+            if (Array.isArray(groupPages)) {
+                return groupPages.includes(this.page);
+            }
+            return groupPages === this.page;
+        }
+    }"
     x-init="
          darkMode = JSON.parse(localStorage.getItem('darkMode'));
          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"

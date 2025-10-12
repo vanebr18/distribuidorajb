@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-layouts-app page="zonas">
     <!-- Breadcrumb -->
     <div x-data="{ pageName: `Zonas`}">
         @include('partials.breadcrumb')
@@ -712,4 +712,4 @@
             };
         }
     </script>
-</x-app-layout>
+</x-layouts-app>

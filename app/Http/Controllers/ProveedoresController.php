@@ -12,8 +12,8 @@ class ProveedoresController extends Controller
      */
     public function list()
     {
-        $zonas = Proveedor::all(['id', 'nombre', 'direccion', 'telefono', 'estado', 'alias']);
-        return response()->json($zonas);
+        $proveedores = Proveedor::all(['id', 'nombre', 'direccion', 'telefono', 'estado', 'alias']);
+        return response()->json($proveedores);
     }
 
     public function store(Request $request)
@@ -59,21 +59,34 @@ class ProveedoresController extends Controller
             'alias' => 'required|string|max:10',
         ]);
 
-        $zonas = Proveedor::findOrFail($id);
-        $zonas->update($validated);
+        $proveedores = Proveedor::findOrFail($id);
+        $proveedores->update($validated);
 
         return response()->json([
             'success' => true,
             'message' => 'Registro actualizado correctamente.',
-            'data' => $zonas,
+            'data' => $proveedores,
         ]);
     }
 
     public function destroy(string $id)
     {
-        $zonas = Proveedor::findOrFail($id);
-        $zonas->delete();
+        $proveedores = Proveedor::findOrFail($id);
+        $proveedores->delete();
 
         return response()->json(['success' => true, 'message' => 'Registro eliminado correctamente.']);
+    }
+
+    public function getProveedor(Request $request)
+    {
+        $q = $request->get('q');
+
+        $proveedores = Proveedor::select('id', 'nombre')
+            ->when($q, fn($query) => $query
+            ->where('nombre', 'like', "%{$q}%"))
+            ->where('estado', '=', true)
+            ->get();
+
+        return response()->json($proveedores);
     }
 }
