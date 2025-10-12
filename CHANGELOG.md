@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/vanebr18/distribuidorajb/compare/v1.9.0...v1.10.0) (2025-10-12)
+
+
+### Features
+
+* **tubos:** se agrega MVC pata tubos y se corrije detalles en el diseño para el sidebar y páginas ([994b841](https://github.com/vanebr18/distribuidorajb/commit/994b8413e5313e520acaf20c0a8f13beca1b1e7c))
+
 ## [1.9.0](https://github.com/vanebr18/distribuidorajb/compare/v1.8.2...v1.9.0) (2025-10-09)
 
 
