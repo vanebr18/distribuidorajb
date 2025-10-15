@@ -105,10 +105,10 @@ class TipoGasesController extends Controller
     {
         $q = $request->get('q');
 
-        $gas = TipoGas::select('id', 'descripcion')
+        $gas = TipoGas::select('id', 'descripcion', 'uni_medida')
             ->when($q, fn($query) => $query
-            ->where('descripcion', 'like', "%{$q}%"))
-            ->where('estado', '=', true)
+            ->where('descripcion', 'like', "%{$q}%")
+            ->where('uni_medida', 'like', "%{$q}%"))
             ->get();
 
         return response()->json($gas);

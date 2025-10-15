@@ -15,7 +15,7 @@
         </div>
         <div
             class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800">
-            <form method="POST" x-data="tubosForm()" @submit="submitForm" id="frmClientes">
+            <form method="POST" x-data="tubosForm()" @submit="submitForm" id="frmTubos">
                 <div class="-mx-2.5 flex flex-wrap gap-y-5">
                     <div class="w-full px-2.5 xl:w-1/3">
                         <label
@@ -28,10 +28,26 @@
                             x-model="nro_tubo"
                             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
 
-                        <div class="w-full px-2.5 flex items-center">
+                        <!-- <div class="w-full px-2.5 flex items-center">
                             <label class="inline-flex items-center">
                                 <input type="checkbox" x-model="propio" class="mr-2">
                                 <span x-text="propio ? 'Propio' : 'Otro Dueño'">Propio</span>
+                            </label>
+                        </div> -->
+                        <div class="w-full px-2.5" x-data="{ switcherToggle: true }" x-init="switcherToggle = propio"
+                            x-effect="propio = switcherToggle">
+                            <label for="toggle2" class="flex cursor-pointer items-center gap-3 text-sm font-medium text-gray-700 select-none dark:text-gray-400">
+                                <div class="relative">
+                                    <input type="checkbox" id="toggle2" class="sr-only" @change="switcherToggle = !switcherToggle">
+                                    <div class="block h-6 w-11 rounded-full"
+                                        :class="switcherToggle ? 'bg-brand-500 dark:bg-brand-500' : 'bg-gray-200 dark:bg-white/10'">
+                                    </div>
+                                    <div class="shadow-theme-sm absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white duration-300 ease-linear"
+                                        :class="switcherToggle ? 'translate-x-full' : 'translate-x-0'">
+                                    </div>
+                                </div>
+
+                                <span x-text="switcherToggle ? 'Propio' : 'Otro Dueño'"></span>
                             </label>
                         </div>
 
@@ -42,36 +58,80 @@
                             </label>
                         </div>
                     </div>
-                    <div x-data="zonasSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
+                    <div class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
                         <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Gas</label>
                         <select
-                            x-ref="zonasSelect"
-                            name="zona_id"
-                            :class="isOptionSelectedZona && 'text-gray-500 dark:text-gray-400'"
-                            @change="isOptionSelectedZona = $event.target.value !== ''">
-                            <option value="" disabled selected>Seleccione una zona</option>
+                            x-ref="gasSelect"
+                            name="tipogas_id"
+                            :class="isOptionSelectedGas && 'text-gray-500 dark:text-gray-400'"
+                            @change="isOptionSelectedGas = $event.target.value !== ''">
+                            <option value="" disabled selected>Seleccione un tipo de gas</option>
                         </select>
+
+                        <!-- Selección Cliente/Proveedor (solo si es Otro Dueño) -->
+                        <template x-if="!propio">
+                            <div class="w-full px-2.5 flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="tipo_dueño" value="cliente" x-model="tipoOtro" class="mr-2">
+                                    Cliente
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="tipo_dueño" value="proveedor" x-model="tipoOtro" class="mr-2">
+                                    Proveedor
+                                </label>
+                            </div>
+                        </template>
                     </div>
-                    <div x-data="zonasSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Cliente</label>
-                        <select
-                            x-ref="zonasSelect"
-                            name="zona_id"
-                            :class="isOptionSelectedZona && 'text-gray-500 dark:text-gray-400'"
-                            @change="isOptionSelectedZona = $event.target.value !== ''">
-                            <option value="" disabled selected>Seleccione una zona</option>
-                        </select>
+                    <!-- Campo de capacidad con unidad dinámica -->
+                    <div class="w-full px-2.5 xl:w-1/3">
+                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Capacidad</label>
+                        <div class="relative">
+                            <span
+                                class="absolute top-1/2 left-0 inline-flex h-11 -translate-y-1/2 items-center justify-center 
+                   border-r border-gray-200 py-3 pr-3 pl-3.5 text-gray-500 dark:border-gray-800 dark:text-gray-400"
+                                x-text="tiposGas.find(t => t.id == tipogas_id)?.uni_medida || '--'">
+                            </span>
+
+                            <input
+                                type="text"
+                                name="capacidad"
+                                x-model="capacidad"
+                                placeholder="7.5"
+                                class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 
+                   dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 
+                   bg-transparent px-4 py-2.5 pl-[90px] text-sm text-gray-800 placeholder:text-gray-400 
+                   focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 
+                   dark:text-white/90 dark:placeholder:text-white/30">
+                        </div>
                     </div>
-                    <div x-data="zonasSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
-                        <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Proveedor</label>
-                        <select
-                            x-ref="zonasSelect"
-                            name="zona_id"
-                            :class="isOptionSelectedZona && 'text-gray-500 dark:text-gray-400'"
-                            @change="isOptionSelectedZona = $event.target.value !== ''">
-                            <option value="" disabled selected>Seleccione una zona</option>
-                        </select>
-                    </div>
+                    <!-- Combo Clientes -->
+                    <template x-if="tipoOtro === 'cliente' && !propio">
+                        <div x-data="clientesSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Cliente</label>
+                            <select
+                                x-ref="clientesSelect"
+                                name="cliente_id"
+                                x-model="cliente_id"
+                                :class="isOptionSelectedCliente && 'text-gray-500 dark:text-gray-400'"
+                                @change="isOptionSelectedCliente = $event.target.value !== ''">
+                                <option value="" disabled selected>Seleccione cliente</option>
+                            </select>
+                        </div>
+                    </template>
+                    <!-- Combo Proveedores -->
+                    <template x-if="tipoOtro === 'proveedor' && !propio">
+                        <div x-data="proveedoresSelect()" x-init="init()" class="w-full px-2.5 xl:w-1/3 relative z-20 bg-transparent">
+                            <label class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Proveedor</label>
+                            <select
+                                x-ref="proveedoresSelect"
+                                name="proveedor_id"
+                                x-model="proveedor_id"
+                                :class="isOptionSelectedProveedores && 'text-gray-500 dark:text-gray-400'"
+                                @change="isOptionSelectedProveedores = $event.target.value !== ''">
+                                <option value="" disabled selected>Seleccione un proveedor</option>
+                            </select>
+                        </div>
+                    </template>
                     <!--BOTONES DEL FORM -->
                     <div class="w-full px-2.5 flex justify-center items-center">
                         <div class="mt-1 flex items-center gap-3">
@@ -625,26 +685,84 @@
 
 
     <script>
-        function zonasSelect() {
+        function gasSelect() {
             return {
-                isOptionSelectedZona: false,
+                isOptionSelectedGas: false,
+                gases: [],
+                uni_medida: null,
+                capacidad: '',
+                propio: true,
+                tipoOtro: null,
 
                 init() {
-                    const select = this.$refs.zonasSelect;
+                    const select = this.$refs.gasSelect;
+
+                    fetch("{{ route('tipogases.json') }}")
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.json();
+                        })
+                        .then(data => {
+                            this.gases = data;
+
+                            // Poblar el select base
+                            select.innerHTML = '<option value="" disabled selected>Seleccione un tipo de gas</option>';
+                            data.forEach(g => {
+                                const opt = document.createElement('option');
+                                opt.value = g.id;
+                                opt.textContent = g.descripcion; // solo descripción visible
+                                select.appendChild(opt);
+                            });
+
+                            // Si ya existe un TomSelect anterior, destruirlo
+                            if (select.tomselect) select.tomselect.destroy();
+
+                            // Inicializar TomSelect
+                            new TomSelect(select, {
+                                valueField: 'id',
+                                labelField: 'descripcion',
+                                searchField: ['descripcion', 'uni_medida'],
+                                load: (query, callback) => {
+                                    if (!query.length) return callback();
+                                    fetch("{{ route('tipogases.json') }}?q=" + encodeURIComponent(query))
+                                        .then(res => res.json())
+                                        .then(json => callback(json))
+                                        .catch(() => callback());
+                                },
+                                onChange: (value) => {
+                                    // Buscar el gas seleccionado y actualizar uni_medida
+                                    const gasSeleccionado = this.gases.find(g => g.id == value);
+                                    this.uni_medida = gasSeleccionado ? gasSeleccionado.uni_medida : null;
+                                }
+                            });
+                        })
+                        .catch(err => {
+                            console.error('Error cargando tipo de gases:', err);
+                        });
+                }
+            }
+        }
+
+        function clientesSelect() {
+            return {
+                isOptionSelectedCliente: false,
+
+                init() {
+                    const select = this.$refs.clientesSelect;
 
                     // 1) Traer todas las zonas desde Laravel
-                    fetch("{{ route('zonas.json') }}")
+                    fetch("{{ route('clientes.json') }}")
                         .then(response => {
                             if (!response.ok) throw new Error('Network response was not ok');
                             return response.json();
                         })
                         .then(data => {
                             // 2) Poblar <select> (limpiamos excepto la opción placeholder)
-                            select.innerHTML = '<option value="" disabled selected>Seleccione una zona</option>';
+                            select.innerHTML = '<option value="" disabled selected>Seleccione un cliente</option>';
                             data.forEach(z => {
                                 const opt = document.createElement('option');
                                 opt.value = z.id;
-                                opt.textContent = z.descripcion;
+                                opt.textContent = z.nombre;
                                 select.appendChild(opt);
                             });
 
@@ -657,24 +775,79 @@
                             // 3) Inicializar Tom Select sobre el select poblado
                             new TomSelect(select, {
                                 valueField: 'id',
-                                labelField: 'descripcion',
-                                searchField: 'descripcion',
+                                labelField: 'nombre',
+                                searchField: 'nombre',
                                 load: (query, callback) => {
                                     if (!query.length) return callback();
-                                    fetch("{{ route('zonas.json') }}?q=" + encodeURIComponent(query))
+                                    fetch("{{ route('clientes.json') }}?q=" + encodeURIComponent(query))
                                         .then(res => res.json())
                                         .then(json => callback(json))
                                         .catch(() => callback());
                                 },
                                 // 4) evento para mantener el estado en Alpine
                                 onChange: (value) => {
-                                    const formComponent = Alpine.$data(document.getElementById('frmClientes'));
-                                    formComponent.zona_id = value; // actualiza Alpine manualmente
+                                    const formComponent = Alpine.$data(document.getElementById('frmTubos'));
+                                    formComponent.cliente_id = value; // actualiza Alpine manualmente
                                 }
                             });
                         })
                         .catch(err => {
-                            console.error('Error cargando zonas:', err);
+                            console.error('Error cargando cliente: ', err);
+                        });
+                }
+            }
+        }
+
+        function proveedoresSelect() {
+            return {
+                isOptionSelectedProveedores: false,
+
+                init() {
+                    const select = this.$refs.proveedoresSelect;
+
+                    // 1) Traer todas las zonas desde Laravel
+                    fetch("{{ route('proveedores.json') }}")
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.json();
+                        })
+                        .then(data => {
+                            // 2) Poblar <select> (limpiamos excepto la opción placeholder)
+                            select.innerHTML = '<option value="" disabled selected>Seleccione un proveedor</option>';
+                            data.forEach(z => {
+                                const opt = document.createElement('option');
+                                opt.value = z.id;
+                                opt.textContent = z.nombre;
+                                select.appendChild(opt);
+                            });
+
+
+                            if (select.tomselect) {
+                                select.tomselect.destroy();
+                            }
+
+
+                            // 3) Inicializar Tom Select sobre el select poblado
+                            new TomSelect(select, {
+                                valueField: 'id',
+                                labelField: 'nombre',
+                                searchField: 'nombre',
+                                load: (query, callback) => {
+                                    if (!query.length) return callback();
+                                    fetch("{{ route('proveedores.json') }}?q=" + encodeURIComponent(query))
+                                        .then(res => res.json())
+                                        .then(json => callback(json))
+                                        .catch(() => callback());
+                                },
+                                // 4) evento para mantener el estado en Alpine
+                                onChange: (value) => {
+                                    const formComponent = Alpine.$data(document.getElementById('frmTubos'));
+                                    formComponent.proveedor_id = value; // actualiza Alpine manualmente
+                                }
+                            });
+                        })
+                        .catch(err => {
+                            console.error('Error cargando proveedor: ', err);
                         });
                 }
             }
@@ -689,10 +862,13 @@
                 tipogas_id: null,
                 cliente_id: null,
                 proveedor_id: null,
+                tipoOtro: null,
+                tiposGas: [],
+                uni_medida: null,
                 isEditing: false,
                 editingId: null,
 
-                init() {
+                async init() {
                     // Escuchar el evento personalizado
                     window.addEventListener("edit-clientes", (event) => {
                         const item = event.detail;
@@ -704,6 +880,48 @@
                         this.isEditing = true;
                         this.editingId = item.id;
                     });
+
+                    this.$watch('propio', (nuevoValor) => {
+                        if (nuevoValor) {
+                            // Si se marca Propio, limpiamos todo lo demás
+                            this.tipoOtro = null;
+                            this.cliente_id = null;
+                            this.proveedor_id = null;
+
+                            // Si querés también limpiar visualmente los selects:
+                            const clienteSelect = this.$root.querySelector('[x-ref=clientesSelect]');
+                            const proveedorSelect = this.$root.querySelector('[x-ref=proveedoresSelect]');
+                            if (clienteSelect) clienteSelect.value = '';
+                            if (proveedorSelect) proveedorSelect.value = '';
+                        }
+                    });
+
+                    try {
+                        const response = await fetch("{{ route('tipogases.json') }}");
+                        if (!response.ok) throw new Error('Error al cargar gases');
+
+                        this.tiposGas = await response.json();
+
+                        // Inicializar el TomSelect
+                        const select = this.$root.querySelector('[x-ref=gasSelect]');
+
+                        if (select.tomselect) select.tomselect.destroy();
+
+                        new TomSelect(select, {
+                            valueField: 'id',
+                            labelField: 'descripcion',
+                            searchField: ['descripcion', 'uni_medida'],
+                            options: this.tiposGas,
+                            onChange: (value) => {
+                                const gasSeleccionado = this.tiposGas.find(g => g.id == value);
+                                this.tipogas_id = value;
+                                this.uni_medida = gasSeleccionado ? gasSeleccionado.uni_medida : null;
+                            }
+                        });
+
+                    } catch (error) {
+                        console.error('Error cargando tipo de gases:', error);
+                    }
                 },
 
                 async submitForm(event) {
@@ -798,7 +1016,6 @@
                 async fetchData() {
                     let response = await fetch("{{ route('clientes.list') }}");
                     this.data = await response.json();
-                    console.log("Clientes cargados:", this.data);
                 },
 
                 get pagesAroundCurrent() {
